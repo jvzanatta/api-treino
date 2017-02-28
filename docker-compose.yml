@@ -1,0 +1,23 @@
+server:
+  container_name: treino_server
+  build: ./nginx
+  ports:
+    - 8015:80
+  links:
+    - php
+  volumes:
+    - ./htdocs:/var/www/api-treino/htdocs
+    - ./nginx/api-treino.conf:/etc/nginx/conf.d/api-treino.conf
+
+php:
+  container_name: treino_php
+  build: ./php
+  net: bridge
+  working_dir: /var/www/api-treino/htdocs
+  expose:
+    - 9000
+  env_file:
+    - .env
+  volumes:
+    - ./htdocs:/var/www/api-treino/htdocs
+    - ./php/php.ini:/usr/local/etc/php/php.ini
