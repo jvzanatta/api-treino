@@ -9,7 +9,7 @@ use GenTux\Jwt\JwtToken;
 use Illuminate\Http\Request;
 //use App\Http\Controllers\Controller;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * Instantiate a new UserController instance.
@@ -57,7 +57,7 @@ class UsersController extends Controller
                 ['email', $request->input('email')],
             ])->first();
 
-            if ($user instanceof User && 
+            if ($user instanceof User &&
                     password_verify($request->input('password'), $user->password)){
 
                 $api_token = $this->token($user);

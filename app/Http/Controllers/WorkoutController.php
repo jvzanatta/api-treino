@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-//use DB;
+use DB;
 use App\Workout;
 //use App\Http\Requests;
 use Illuminate\Http\Request;
 //use App\Http\Controllers\Controller;
 
-class WorkoutsController extends Controller
+class WorkoutController extends Controller
 {
 
     public function getAllWorkouts(Request $request)

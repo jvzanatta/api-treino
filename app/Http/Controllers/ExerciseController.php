@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class ExercisesController extends Controller
+class ExerciseController extends Controller
 {
 
     public function index(Request $request)

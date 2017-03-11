@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-class ExerciseGroupsController extends Controller
+class ExerciseGroupController extends Controller
 {
     public function allGroups()
     {
