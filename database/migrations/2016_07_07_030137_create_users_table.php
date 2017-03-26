@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('first_name', 150);
             $table->string('last_name', 150);
             $table->string('email', 150)->unique();
-            $table->string('api_token', 60)->nullable()->unique();
+            $table->string('api_token')->nullable()->unique();
             $table->enum('gender', ['M', 'F']);
             $table->string('nick_name', 50)->nullable();
             $table->date('birth_date')->nullable();

@@ -2,21 +2,15 @@
 
 namespace App;
 
+use Laravel\Passport\HasApiTokens;
+use Laravel\Passport\Token as Token;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use Tymon\JWTAuth\Contracts\JWTSubject as AuthenticatableUserContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-
-
-class User extends Model implements
-    AuthenticatableContract,
-    AuthorizableContract,
-    CanResetPasswordContract,
-    AuthenticatableUserContract
+class User extends Authenticatable
 {
 
-    use Authenticatable, Authorizable, CanResetPassword, Notifiable;
-
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -56,25 +50,9 @@ class User extends Model implements
         return $this->hasMany(Workout::class, 'created_by', 'user_id');
     }
 
-    /**
-    * @return mixed
-    */
-   public function getJWTIdentifier()
-   {
-       return $this->getKey();  // Eloquent model method
-   }
-
-   /**
-    * @return array
-    */
-   public function getJWTCustomClaims()
-   {
-       return [
-            'user' => [
-               'id' => $this->id,
-               ...
-            ]
-       ];
-   }
+    public function token()
+    {
+        return $this->hasMany(Token::class);
+    }
 
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\User as User;
-use GenTux\Jwt\JwtToken;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
@@ -49,19 +49,21 @@ class UserController extends Controller
             'email' => 'required|email'
         ]);
 
+
         if ($request->has('email') && $request->has('password')) {
-            if ($request->user()) {
-                return $request->user()->api_token;
-            }
+            // if ($request->user()) {
+            //     return $request->user()->api_token;
+            // }
 
             $user = User::where([
                 ['email', $request->input('email')],
             ])->first();
 
             if (Hash::check($request->input('password'), $user->password)) {
-                $api_token = $this->token($user);
 
-                $user->update(['api_token' => $api_token]);
+                $api_token = $user->createToken('MobileToken')->accessToken;
+                // $user->update(['api_token' => $api_token]);
+                $user->token;
 
                 return $user;
             }
@@ -94,9 +96,6 @@ class UserController extends Controller
         return $request->user();
     }
 
-    public function token (User $user)
-    {
-        return JWTAuth::fromUser($user);
-    }
+
 
 }
