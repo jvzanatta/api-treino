@@ -3,12 +3,20 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+use Tymon\JWTAuth\Contracts\JWTSubject as AuthenticatableUserContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
+
+class User extends Model implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract,
+    AuthenticatableUserContract
 {
 
-    use Notifiable;
+    use Authenticatable, Authorizable, CanResetPassword, Notifiable;
+
 
     /**
      * The attributes that are mass assignable.
@@ -31,23 +39,6 @@ class User extends Authenticatable
     public function pupils ()
     {
         return $this->belongsToMany(User::class, 'user_coaches', 'user_id', 'coach_id');
-    /*    $workouts = DB::table('users')
-            ->leftJoin('user_coaches', 'user_coaches.coach_id', '=', 'users.id')
-            ->where('user_coaches.coach_id', $this->id)
-            ->select('users.*', 'user_coaches.coach_id')
-            ->orderBy('users.id', 'desc')
-            ->get();*/
-
-    }
-
-    public function getPayload()
-    {
-        $payload = ['sub' . $this->id,
-            'exp' . time(),
-            'email' . $this->email,
-            'password' . $this->password,
-        ];
-        return implode("+", $payload);
     }
 
     public function coaches()
@@ -64,5 +55,26 @@ class User extends Authenticatable
     {
         return $this->hasMany(Workout::class, 'created_by', 'user_id');
     }
+
+    /**
+    * @return mixed
+    */
+   public function getJWTIdentifier()
+   {
+       return $this->getKey();  // Eloquent model method
+   }
+
+   /**
+    * @return array
+    */
+   public function getJWTCustomClaims()
+   {
+       return [
+            'user' => [
+               'id' => $this->id,
+               ...
+            ]
+       ];
+   }
 
 }
