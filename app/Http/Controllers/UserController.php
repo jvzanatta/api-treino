@@ -3,14 +3,21 @@
 namespace App\Http\Controllers;
 
 use DB;
-use App\User;
-//use App\Http\Requests;
+use App\User as User;
 use GenTux\Jwt\JwtToken;
 use Illuminate\Http\Request;
-//use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\RestControllerTrait as RestControllerTrait;
+
 
 class UserController extends Controller
 {
+
+    use RestControllerTrait;
+    const MODEL = 'App\Models\User';
+
+
     /**
      * Instantiate a new UserController instance.
      *
@@ -23,20 +30,16 @@ class UserController extends Controller
 
     public function register (Request $request)
     {
-
         $this->validate($request, [
             'password' => 'required|min:4',
             'email' => 'required|email|unique:users'
         ]);
 
-        $request_params = $request->all();
-
-        $request_params["password"] = $this->encryptPassword($request_params["password"]);
-
-        $user = User::create($request_params);
+        $user = User::fill($request->all());
+        $user->password = Hash::make($user->password);
+        $user->save();
 
         return $user;
-
     }
 
     public function login (Request $request)
@@ -46,30 +49,26 @@ class UserController extends Controller
             'email' => 'required|email'
         ]);
 
-        if ($request->user())
-        {
-            $user = $request->user();
-            return $user->api_token;
-        }
-        else if ($request->has('email') && $request->has('password'))
-        {
+        if ($request->has('email') && $request->has('password')) {
+            if ($request->user()) {
+                return $request->user()->api_token;
+            }
+
             $user = User::where([
                 ['email', $request->input('email')],
             ])->first();
 
-            if ($user instanceof User &&
-                    password_verify($request->input('password'), $user->password)){
-
+            if (Hash::check($request->input('password'), $user->password)) {
                 $api_token = $this->token($user);
 
                 $user->update(['api_token' => $api_token]);
 
-                return $user->api_token;
-            } else {
-                return 'User not found';
+                return $user;
             }
+
         }
 
+        return $this->notFoundResponse();
     }
 
     public function getPupils (Request $request)
@@ -100,16 +99,9 @@ class UserController extends Controller
         $salt = '$1$tokengen$';
 
         $api_token = crypt($user->getPayload(), $salt);
-        //$api_token = str_replace($salt, "", $api_token);
 
         //return $api_token;
         return password_hash($user->getPayload(), PASSWORD_DEFAULT);
     }
-
-    public function encryptPassword ($password)
-    {
-        return password_hash($password, PASSWORD_DEFAULT);
-    }
-
 
 }

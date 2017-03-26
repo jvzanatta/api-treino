@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+
 
 class UsersTableSeeder extends Seeder
 {
@@ -17,7 +19,7 @@ class UsersTableSeeder extends Seeder
                     'last_name' => "Zanatta",
                     'gender' => 'M',
                     'email' => "joaovictor15@gmail.com",
-                    'password' => '321654',
+                    'password' => Hash::make('321654'),
                     'birth_date' => "1990-07-31",
                     'weight' => 80.0,
                     'height' => 1.79,
@@ -29,7 +31,7 @@ class UsersTableSeeder extends Seeder
                     'last_name' => "Pterson",
                     'gender' => 'M',
                     'email' => "teste1@gmail.com",
-                    'password' => '321654',
+                    'password' => Hash::make('321654'),
                     'birth_date' => "1990-05-22",
                     'weight' => 80.0,
                     'height' => 1.79,
@@ -41,7 +43,7 @@ class UsersTableSeeder extends Seeder
                     'last_name' => "Rockman",
                     'gender' => 'M',
                     'email' => "teste2@gmail.com",
-                    'password' => '321654',
+                    'password' => Hash::make('321654'),
                     'birth_date' => "1990-05-22",
                     'weight' => 75.0,
                     'height' => 1.69,
@@ -53,7 +55,7 @@ class UsersTableSeeder extends Seeder
                     'last_name' => "Pereira",
                     'gender' => 'M',
                     'email' => "teste3@gmail.com",
-                    'password' => '321654',
+                    'password' => Hash::make('321654'),
                     'birth_date' => "1990-05-22",
                     'weight' => 85.0,
                     'height' => 1.59,
@@ -65,7 +67,7 @@ class UsersTableSeeder extends Seeder
                     'last_name' => "Massoni",
                     'gender' => 'F',
                     'email' => "teste4@gmail.com",
-                    'password' => '321654',
+                    'password' => Hash::make('321654'),
                     'birth_date' => "1990-05-22",
                     'weight' => 75.0,
                     'height' => 1.72,
@@ -77,7 +79,7 @@ class UsersTableSeeder extends Seeder
                     'last_name' => "Quem",
                     'gender' => 'F',
                     'email' => "teste5@gmail.com",
-                    'password' => '321654',
+                    'password' => Hash::make('321654'),
                     'birth_date' => "1990-05-22",
                     'weight' => 72.0,
                     'height' => 1.85,
@@ -89,7 +91,7 @@ class UsersTableSeeder extends Seeder
                     'last_name' => "Delicia",
                     'gender' => 'F',
                     'email' => "teste6@gmail.com",
-                    'password' => '321654',
+                    'password' => Hash::make('321654'),
                     'birth_date' => "1990-05-22",
                     'weight' => 55.0,
                     'height' => 1.64,
