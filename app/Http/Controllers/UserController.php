@@ -96,12 +96,7 @@ class UserController extends Controller
 
     public function token (User $user)
     {
-        $salt = '$1$tokengen$';
-
-        $api_token = crypt($user->getPayload(), $salt);
-
-        //return $api_token;
-        return password_hash($user->getPayload(), PASSWORD_DEFAULT);
+        return JWTAuth::fromUser($user);
     }
 
 }

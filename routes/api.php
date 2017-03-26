@@ -13,17 +13,22 @@ use Illuminate\Http\Request;
 |
 */
 
+
+Route::post('v1/login', 'Auth\LoginController@login');
+
 Route::post('v1/user/register', 'UserController@register');
 Route::post('v1/user/login', 'UserController@login');
 
-Route::group(['prefix' => 'v1/users/', 'middleware' => 'auth'], function ()
+Route::group(['prefix' => 'v1/users/', 'middleware' => 'auth:api'], function ()
 {
     Route::get('who', 'UserController@who');
+    Route::get('logout', 'Auth\LoginController@logout');
+    Route::get('test', function () {return 'authenticated';});
     Route::get('', 'UserController@');
 
 });
 
-Route::group(['prefix' => 'v1/workouts/', 'middleware' => 'auth'], function ()
+Route::group(['prefix' => 'v1/workouts/', 'middleware' => 'auth:api'], function ()
 {
     Route::get('', 'WorkoutController@getAllWorkouts');
     Route::get('for_me', 'WorkoutController@getWorkoutsForMe');
@@ -35,7 +40,7 @@ Route::group(['prefix' => 'v1/workouts/', 'middleware' => 'auth'], function ()
     Route::delete('{id}', 'WorkoutController@delete');
 });
 
-Route::group(['prefix' => 'v1/exercises/', 'middleware' => 'auth'], function ()
+Route::group(['prefix' => 'v1/exercises/', 'middleware' => 'auth:api'], function ()
 {
     Route::get('', 'ExerciseController@index');
     Route::get('{id}', 'ExerciseController@read');
