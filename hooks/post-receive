@@ -1,0 +1,112 @@
+#!/bin/bash
+
+# API Arteris Git Hook Post-Receive
+# =============================
+
+
+# Obtém o nome do branch atual a partir do último push.
+read -r oldrev newrev refname
+branch=$(git rev-parse --symbolic --abbrev-ref "$refname")
+
+# Expressão regular para checar tags.
+regex='^[0-9]+[.][0-9]+[.][0-9]+[.]*[0-9]*$'
+
+
+# Ignora a execução do script quando:
+# - está deletando branchs remotos pelo refname "refs/heads/*";
+# - criando tags pelo nome da tag filtradas pela expressão regular acima;
+# - fazendo push em branchs que não são release, develop ou master.
+if [[ $branch == refs* || $branch =~ $regex || $branch == feature* || $branch == bugfix* || $branch == hotfix* ]]; then
+  exit
+fi
+
+
+# Definindo nome do projeto, pasta do projeto e domínio se existir.
+project="api-arteris"
+serverName='api.arteris.somasig.com.br'
+projectPath="/var/www/$project"
+bare="$projectPath".git
+webServer='nginx'
+webServerConf="/etc/$webServer/conf.d"
+folder=$branch
+
+# Habilitando variáveis do arquivo .env
+source "$projectPath/$folder"/.env
+
+if [[ $branch != 'master' ]]; then
+    serverName="$folder"."$serverName"
+fi
+
+
+# Se a pasta do branch não existe no diretório de trabalho,
+# cria a pasta desse branch e o virtual host no web server.
+if [ ! -d "$projectPath/$folder" ]; then
+
+    # Clona o repositório Git já alterando o branch.
+    git clone $bare -b "$branch" "$projectPath/$folder"
+
+    # Configura o VirtualHost para o web server atual.
+    echo "
+server {
+    listen               8015;
+    server_name          $serverName;
+    root                 /var/www/$project/$folder/htdocs/public;
+    error_log            /var/log/nginx/${project}_${folder}_error.log debug;
+    index                index.php;
+    fastcgi_read_timeout 1200;
+    server_tokens        off;
+    rewrite_log          on;
+
+    location / {
+        try_files \$uri \$uri/ /index.php?\$query_string;
+    }
+
+    location ~ .php$ {
+        fastcgi_pass   unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_index  index.php;
+        include        fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+    }
+}" > $webServerConf/"$project"_"$folder".conf
+
+    # Reiniciando o serviço do Web Server.
+    service $webServer restart
+
+    # Entrando na pasta do projeto.
+    cd "$projectPath/$folder" || exit
+
+# Se a pasta do branch existe, executa um checkout forçado para descartar
+# possíveis alterações neste branch e obtém o código mais recente.
+else
+
+    cd "$projectPath/$folder" || exit
+    unset GIT_DIR
+    git checkout -f "$branch"
+    git pull origin "$branch"
+
+fi
+
+
+# Instala pacotes do composer
+cd "$projectPath/$folder"/htdocs
+composer install
+
+# Se o push for a partir do branch de teste do developer,
+# executa script específico para excluir banco de testing
+# e recria as tabelas com as migrations atuais do branch.
+#
+# Se não, executa a migration normalmente.
+if [[ $branch == testing* ]]; then
+  PGPASSWORD="$DB_PASSWORD" psql \
+    -U pgadmin \
+    -d sigarteris_testing \
+    -c "
+      DROP SCHEMA IF EXISTS public CASCADE;
+      CREATE SCHEMA public AUTHORIZATION postgres;
+      GRANT ALL ON SCHEMA public TO postgres;
+      GRANT ALL ON SCHEMA public TO public;
+      COMMENT ON SCHEMA public IS 'standard public schema';"
+  composer dump-autoload
+fi
+
+php artisan migrate
