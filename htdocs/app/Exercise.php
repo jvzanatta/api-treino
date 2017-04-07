@@ -15,12 +15,12 @@ class Exercise extends Model
         'name', 'modality_id', 'schedule', 'active', 'detail', 'created_by'
     ];
 
-    protected $table = 'workouts';
+    protected $table = 'exercises';
 
     public function group()
     {
         return $this->belongsTo(ExerciseGroup::class);
     }
 
-    public function
+    //public function
 }

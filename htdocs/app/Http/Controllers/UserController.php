@@ -60,12 +60,17 @@ class UserController extends Controller
             ])->first();
 
             if (Hash::check($request->input('password'), $user->password)) {
-
                 $api_token = $user->createToken('MobileToken')->accessToken;
-                // $user->update(['api_token' => $api_token]);
-                $user->token;
 
-                return $user;
+                $user = User::with('givenWorkouts', 'givenWorkouts.exercises')->find($user->id);
+
+                $response = [
+                    'user' => $user->getAttributes(),
+                    'auth' => $api_token,
+                    'workouts' => $user->givenWorkouts
+                ];
+
+                return $this->showResponse($response);
             }
 
         }
