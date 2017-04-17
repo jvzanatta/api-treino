@@ -62,7 +62,7 @@ class UserController extends Controller
             if (Hash::check($request->input('password'), $user->password)) {
                 $api_token = $user->createToken('MobileToken')->accessToken;
 
-                $user = User::with('givenWorkouts', 'givenWorkouts.exercises', 'givenWorkouts.modality')->find($user->id);
+                $user = User::with('givenWorkouts', 'givenWorkouts.exercises', 'givenWorkouts.exercises.group', 'givenWorkouts.modality')->find($user->id);
 
                 $response = [
                     'user' => $user->getAttributes(),
