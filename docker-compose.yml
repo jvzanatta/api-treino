@@ -21,3 +21,14 @@ php:
   volumes:
     - ./htdocs:/var/www/tcc-api-treino/htdocs
     - ./php/php.ini:/usr/local/etc/php/php.ini
+  links:
+   - db
+
+db:
+  container_name: treino_db
+  image: mysql:5.7
+  volumes:
+   - /var/lib/mysql
+  environment:
+   - MYSQL_ROOT_PASSWORD=14875323
+   - MYSQL_DATABASE=treino

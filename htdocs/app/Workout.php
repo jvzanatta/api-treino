@@ -13,7 +13,12 @@ class Workout extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'modality_id', 'schedule', 'active', 'detail', 'created_by'
+        'name',
+        'modality_id',
+        'schedule',
+        'active',
+        'detail',
+        'created_by'
     ];
 
     protected $table = 'workouts';

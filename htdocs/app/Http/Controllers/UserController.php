@@ -51,23 +51,25 @@ class UserController extends Controller
 
 
         if ($request->has('email') && $request->has('password')) {
-            // if ($request->user()) {
-            //     return $request->user()->api_token;
-            // }
 
-            $user = User::where([
+            $user = User::with(
+                'givenWorkouts',
+                'givenWorkouts.exercises',
+                'givenWorkouts.exercises.group',
+                'givenWorkouts.modality',
+                'pupils',
+                'coaches'
+            )->where([
                 ['email', $request->input('email')],
-            ])->first();
+            ])
+            ->first();
 
-            if (Hash::check($request->input('password'), $user->password)) {
+            if ($user && Hash::check($request->input('password'), $user->password)) {
                 $api_token = $user->createToken('MobileToken')->accessToken;
 
-                $user = User::with('givenWorkouts', 'givenWorkouts.exercises', 'givenWorkouts.exercises.group', 'givenWorkouts.modality')->find($user->id);
-
                 $response = [
-                    'user' => $user->getAttributes(),
+                    'user' => $user->toArray(),
                     'auth' => $api_token,
-                    'workouts' => $user->givenWorkouts
                 ];
 
                 return $this->showResponse($response);

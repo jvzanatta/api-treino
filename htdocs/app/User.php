@@ -12,25 +12,26 @@ class User extends Authenticatable
 
     use HasApiTokens, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password','api_token', 'gender', 'nick_name', 'birth_date', 'weight', 'height', 'facebook_id', 'google_id'
+        'first_name',
+        'last_name',
+        'email',
+        'password','api_token',
+        'gender',
+        'nick_name',
+        'birth_date',
+        'weight',
+        'height',
+        'facebook_id',
+        'google_id'
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
+        'api_token',
     ];
 
-    public function pupils ()
+    public function pupils()
     {
         return $this->belongsToMany(User::class, 'user_coaches', 'user_id', 'coach_id');
     }

@@ -12,14 +12,19 @@ class Exercise extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'modality_id', 'schedule', 'active', 'detail', 'created_by'
+        'name',
+        'modality_id',
+        'schedule',
+        'active',
+        'detail',
+        'created_by'
     ];
 
     protected $table = 'exercises';
 
     public function group()
     {
-        return $this->belongsTo(ExerciseGroup::class);
+        return $this->belongsTo(ExerciseGroup::class, 'exercise_group_id');
     }
 
     //public function

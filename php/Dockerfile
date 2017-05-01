@@ -4,7 +4,7 @@ RUN apt-get update \
   && apt-get install -y git libmcrypt-dev libpq-dev zlib1g-dev libmemcached-dev libldap2-dev \
   && docker-php-ext-install zip \
   && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-  && docker-php-ext-install mcrypt mbstring tokenizer pdo pdo_mysql \
+  && docker-php-ext-install mcrypt mbstring tokenizer pdo pdo_mysql mysqli \
   && cd /tmp \
   && git clone -b php7 https://github.com/php-memcached-dev/php-memcached.git \
   && cd php-memcached \
