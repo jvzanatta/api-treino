@@ -48,7 +48,7 @@ class User extends Authenticatable
 
     public function createdWorkouts()
     {
-        return $this->hasMany(Workout::class, 'created_by', 'user_id');
+        return $this->hasMany(Workout::class, 'created_by');
     }
 
     public function token()

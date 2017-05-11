@@ -57,6 +57,10 @@ class UserController extends Controller
                 'givenWorkouts.exercises',
                 'givenWorkouts.exercises.group',
                 'givenWorkouts.modality',
+                'createdWorkouts',
+                'createdWorkouts.exercises',
+                'createdWorkouts.exercises.group',
+                'createdWorkouts.modality',
                 'pupils',
                 'coaches'
             )->where([
