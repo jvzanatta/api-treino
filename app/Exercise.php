@@ -13,7 +13,7 @@ class Exercise extends Model
      */
     protected $fillable = [
         'name',
-        'modality_id',
+        'sport_id',
         'schedule',
         'active',
         'detail',
@@ -26,6 +26,4 @@ class Exercise extends Model
     {
         return $this->belongsTo(ExerciseGroup::class, 'exercise_group_id');
     }
-
-    //public function
 }

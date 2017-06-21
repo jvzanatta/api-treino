@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModalitiesTable extends Migration
+class CreateSportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateModalitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('modalities', function (Blueprint $table) {
+        Schema::create('sports', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100)->unique();
             $table->string('measure', 50)->nullable();
@@ -28,6 +28,6 @@ class CreateModalitiesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('modalities');
+        Schema::drop('sports');
     }
 }

@@ -1,9 +1,9 @@
 CREATE DATABASE treino_app;
 USE treino_app;
-INSERT INTO treino_app.modalities (name, measure, unit)
+INSERT INTO treino_app.sports (name, measure, unit)
                   VALUES ("Musculação", 'kg', 'weight'), ("Natação", 'metros', 'length'), ("Corrida", 'km', 'length')
 ;
-INSERT INTO treino_app.exercise_groups (name, modality_id)
+INSERT INTO treino_app.exercise_groups (name, sport_id)
                 VALUES ("Outros", 1),
                 ("Peito", 1),
                 ("Costas", 1),
@@ -97,7 +97,7 @@ INSERT INTO treino_app.exercises (name, exercise_group_id)
                         ("Elevação Frontal com Cabo", 10),
                         ("Elevação Lateral Inclinada", 10)
 ;
-INSERT INTO treino_app.workouts (name, created_by, schedule, modality_id, active)
+INSERT INTO treino_app.workouts (name, created_by, schedule, sport_id, active)
                   VALUES ("workout1", 1, "135", 1, 1),
                         ("workout Dois", 1, "12356", 1, 1),
                         ("Terceiro workout", 1, "1345", 1, 0),

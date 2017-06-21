@@ -14,14 +14,14 @@ class CreateExerciseGroupsTable extends Migration
     {
         Schema::create('exercise_groups', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('modality_id')->unsigned();
+            $table->integer('sport_id')->unsigned();
             $table->integer('created_by')->nullable()->unsigned();
             $table->string('name', 100);
             $table->timestamps();
 
-            $table->index(['id', 'modality_id']);
+            $table->index(['id', 'sport_id']);
 
-            $table->foreign('modality_id')->references('id')->on('modalities');
+            $table->foreign('sport_id')->references('id')->on('sports');
             $table->foreign('created_by')->references('id')->on('users');
         });
     }

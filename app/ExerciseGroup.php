@@ -13,8 +13,8 @@ class ExerciseGroup extends Model
         return $this->hasMany(Exercise::class);
     }
 
-    public function modality()
+    public function sport()
     {
-        return $this->belongsTo(Modality::class);
+        return $this->belongsTo(Sport::class);
     }
 }

@@ -56,4 +56,20 @@ class User extends Authenticatable
         return $this->hasMany(Token::class);
     }
 
+    public function getMostData()
+    {
+        return $this->load(
+            'givenWorkouts',
+            'givenWorkouts.exercises',
+            'givenWorkouts.exercises.group',
+            'givenWorkouts.sport',
+            'createdWorkouts',
+            'createdWorkouts.exercises',
+            'createdWorkouts.exercises.group',
+            'createdWorkouts.sport',
+            'pupils',
+            'coaches'
+        );
+    }
+
 }

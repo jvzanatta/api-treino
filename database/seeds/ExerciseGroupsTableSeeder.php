@@ -14,43 +14,43 @@ class ExerciseGroupsTableSeeder extends Seeder
         DB::table('exercise_groups')->insert([
                 [
                     'name' => "Outros",
-                    'modality_id' => 1
+                    'sport_id' => 1
                 ],
                 [
                     'name' => "Peito",
-                    'modality_id' => 1
+                    'sport_id' => 1
                 ],
                 [
                     'name' => "Costas",
-                    'modality_id' => 1
+                    'sport_id' => 1
                 ],
                 [
                     'name' => "Bíceps",
-                    'modality_id' => 1
+                    'sport_id' => 1
                 ],
                 [
                     'name' => "Tríceps",
-                    'modality_id' => 1
+                    'sport_id' => 1
                 ],
                 [
                     'name' => "Abdominais",
-                    'modality_id' => 1
+                    'sport_id' => 1
                 ],
                 [
                     'name' => "Panturrilha",
-                    'modality_id' => 1
+                    'sport_id' => 1
                 ],
                 [
                     'name' => "Antebraços",
-                    'modality_id' => 1
+                    'sport_id' => 1
                 ],
                 [
                     'name' => "Pernas",
-                    'modality_id' => 1
+                    'sport_id' => 1
                 ],
                 [
                     'name' => "Ombros",
-                    'modality_id' => 1
+                    'sport_id' => 1
                 ]
             ]);
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\User as User;
+use App\Sport;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -32,7 +33,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'password' => 'required|min:4',
-            'email' => 'required|email|unique:users'
+            'email'    => 'required|email|unique:users'
         ]);
 
         $user = User::fill($request->all());
@@ -46,34 +47,33 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'password' => 'required',
-            'email' => 'required|email'
+            'email'    => 'required|email'
         ]);
-
 
         if ($request->has('email') && $request->has('password')) {
 
-            $user = User::with(
-                'givenWorkouts',
-                'givenWorkouts.exercises',
-                'givenWorkouts.exercises.group',
-                'givenWorkouts.modality',
-                'createdWorkouts',
-                'createdWorkouts.exercises',
-                'createdWorkouts.exercises.group',
-                'createdWorkouts.modality',
-                'pupils',
-                'coaches'
-            )->where([
-                ['email', $request->input('email')],
-            ])
-            ->first();
+            $user = User::where('email', $request->input('email'))->first();
 
             if ($user && Hash::check($request->input('password'), $user->password)) {
                 $api_token = $user->createToken('MobileToken')->accessToken;
 
+                $user->getMostData();
+
+                $workouts = $user->givenWorkouts->merge($user->createdWorkouts);
+
+                // if ($user->is_coach) {
+                $sports = Sport::getAll();
+                // }
+
                 $response = [
-                    'user' => $user->toArray(),
-                    'auth' => $api_token,
+                    'auth'            => $api_token,
+                    'sports'          => $sports,
+                    'user'            => array_filter($user->toArray(), 'is_scalar'),
+                    'workouts'        => $workouts,
+                    'givenWorkouts'   => $user->givenWorkouts->pluck('id')->toArray(),
+                    'createdWorkouts' => $user->createdWorkouts->pluck('id')->toArray(),
+                    'pupils'          => $user->pupils->toArray(),
+                    'coaches'         => $user->coaches->toArray(),
                 ];
 
                 return $this->showResponse($response);
@@ -84,16 +84,14 @@ class UserController extends Controller
         return $this->notFoundResponse();
     }
 
-    public function getPupils (Request $request)
+    public function getPupils(Request $request)
     {
         $user = $request->user();
 
-        $pupils = User::getPupils($user);
-
-        return response()->json($pupils);
+        return response()->json($user->pupils);
     }
 
-    public function update (Request $request)
+    public function update(Request $request)
     {
         $user = $request->user();
 
@@ -102,7 +100,7 @@ class UserController extends Controller
         return response()->json(['updated' => $updated, 'user' => $user]);
     }
 
-    public function who (Request $request)
+    public function who(Request $request)
     {
         return $request->user();
     }

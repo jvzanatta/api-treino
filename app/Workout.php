@@ -14,7 +14,7 @@ class Workout extends Model
      */
     protected $fillable = [
         'name',
-        'modality_id',
+        'sport_id',
         'schedule',
         'active',
         'detail',
@@ -40,8 +40,8 @@ class Workout extends Model
         return $this->hasOne(User::class, 'user_id', 'created_by');
     }
 
-    public function modality()
+    public function sport()
     {
-        return $this->belongsTo(Modality::class);
+        return $this->belongsTo(Sport::class);
     }
 }

@@ -13,38 +13,43 @@ use Illuminate\Http\Request;
 |
 */
 
-
-Route::post('v1/login', 'Auth\LoginController@login');
-
-Route::post('v1/user/register', 'UserController@register');
-Route::post('v1/user/login', 'UserController@login');
-
-Route::group(['prefix' => 'v1/users/', 'middleware' => 'auth:api'], function ()
+Route::group(['prefix' => 'v1'], function ()
 {
-    Route::get('who', 'UserController@who');
-    Route::get('logout', 'Auth\LoginController@logout');
-    Route::get('test', function () {return 'authenticated';});
-    Route::get('', 'UserController@');
 
-});
+    // Route::post('login', 'Auth\LoginController@login');
+    Route::post('user/register', 'UserController@register');
+    Route::post('user/login', 'UserController@login');
 
-Route::group(['prefix' => 'v1/workouts/', 'middleware' => 'auth:api'], function ()
-{
-    Route::get('', 'WorkoutController@getAllWorkouts');
-    Route::get('for_me', 'WorkoutController@getWorkoutsForMe');
-    Route::get('by_me', 'WorkoutController@getWorkoutsByMe');
-    Route::get('{day}', 'WorkoutController@getDayWorkouts');
-    Route::get('{id}', 'WorkoutController@read');
-    Route::post('', 'WorkoutController@create');
-    Route::put('{id}', 'WorkoutController@update');
-    Route::delete('{id}', 'WorkoutController@delete');
-});
 
-Route::group(['prefix' => 'v1/exercises/', 'middleware' => 'auth:api'], function ()
-{
-    Route::get('', 'ExerciseController@index');
-    Route::get('{id}', 'ExerciseController@read');
-    Route::post('', 'ExerciseController@create');
-    Route::put('{id}', 'ExerciseController@update');
-    Route::delete('{id}', 'ExerciseController@delete');
+    Route::group(['prefix' => 'users/', 'middleware' => 'auth:api'], function ()
+    {
+        Route::get('who', 'UserController@who');
+        Route::get('logout', 'Auth\LoginController@logout');
+        Route::get('test', function () {return 'authenticated';});
+        Route::get('', 'UserController@');
+    });
+
+
+    Route::group(['prefix' => 'workouts/', 'middleware' => 'auth:api'], function ()
+    {
+        Route::get('', 'WorkoutController@getAllWorkouts');
+        Route::get('for_me', 'WorkoutController@getWorkoutsForMe');
+        Route::get('by_me', 'WorkoutController@getWorkoutsByMe');
+        Route::get('{day}', 'WorkoutController@getDayWorkouts');
+        Route::get('{id}', 'WorkoutController@read');
+        Route::post('', 'WorkoutController@create');
+        Route::put('{id}', 'WorkoutController@update');
+        Route::delete('{id}', 'WorkoutController@delete');
+    });
+
+
+    Route::group(['prefix' => 'exercises/', 'middleware' => 'auth:api'], function ()
+    {
+        Route::get('', 'ExerciseController@index');
+        Route::get('{id}', 'ExerciseController@read');
+        Route::post('', 'ExerciseController@create');
+        Route::put('{id}', 'ExerciseController@update');
+        Route::delete('{id}', 'ExerciseController@delete');
+    });
+
 });

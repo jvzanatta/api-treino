@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ModalitiesTableSeeder extends Seeder
+class SportsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,21 +11,26 @@ class ModalitiesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('modalities')->insert([
+        DB::table('sports')->insert([
             [
                 'name' => "Musculação",
                 'measure' => 'kg',
-                'unit' => 'weight'
+                'unit' => 'weight',
             ],
             [
                 'name' => "Natação",
                 'measure' => 'metros',
-                'unit' => 'length'
+                'unit' => 'length',
             ],
             [
                 'name' => "Corrida",
                 'measure' => 'km',
-                'unit' => 'length'
+                'unit' => 'length',
+            ],
+            [
+                'name' => "Fisioterapia",
+                'measure' => null,
+                'unit' => null,
             ]
         ]);
     }
