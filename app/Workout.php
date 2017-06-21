@@ -27,7 +27,8 @@ class Workout extends Model
     public function exercises()
     {
         return $this->belongsToMany(Exercise::class, 'workout_exercises')
-            ->withPivot('day', 'weight', 'distance', 'repeat', 'series', 'laps');
+            ->withPivot('day', 'weight', 'distance', 'repeat', 'series', 'laps')
+            ->orderBy('exercise_group_id')->orderBy('name');
     }
 
     public function users()

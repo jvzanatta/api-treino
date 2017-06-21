@@ -61,13 +61,9 @@ class UserController extends Controller
 
                 $workouts = $user->givenWorkouts->merge($user->createdWorkouts);
 
-                // if ($user->is_coach) {
-                $sports = Sport::getAll();
-                // }
-
                 $response = [
                     'auth'            => $api_token,
-                    'sports'          => $sports,
+                    'sports'          => Sport::getAll(),
                     'user'            => array_filter($user->toArray(), 'is_scalar'),
                     'workouts'        => $workouts,
                     'givenWorkouts'   => $user->givenWorkouts->pluck('id')->toArray(),

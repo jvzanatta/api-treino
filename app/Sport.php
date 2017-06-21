@@ -18,13 +18,22 @@ class Sport extends Model
         return $this->hasMany(Workout::class);
     }
 
+    public function exercises()
+    {
+        return $this->hasManyThrough('App\Exercise', 'App\ExerciseGroup');
+    }
+
     public function scopeGetAll($query)
     {
-        return $query->with(['groups' => function ($query) {
-                    $query->orderByRaw('name = "Outros", name')
-                        ->with(['exercises' => function ($query) {
-                            $query->orderBy('name');
-                        }])->get();
-                }])->orderBy('name')->get();
+        return $query
+            ->with(['groups' => function ($query) {
+                $query->orderByRaw('name = "Outros", name')
+                    ->with(['exercises' => function ($query) {
+                        $query->orderBy('name');
+                    }])->get();
+            }])
+            ->with(['exercises' => function ($query) {
+                $query->orderBy('name');
+            }])->orderBy('name')->get();
     }
 }
