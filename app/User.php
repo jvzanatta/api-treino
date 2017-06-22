@@ -61,12 +61,12 @@ class User extends Authenticatable
         return $this->load(
             'givenWorkouts',
             'givenWorkouts.exercises',
-            // 'givenWorkouts.exercises.group',
             'givenWorkouts.sport',
+            'givenWorkouts.creator',
             'createdWorkouts',
             'createdWorkouts.exercises',
-            // 'createdWorkouts.exercises.group',
             'createdWorkouts.sport',
+            'createdWorkouts.creator',
             'pupils',
             'coaches'
         );

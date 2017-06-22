@@ -38,7 +38,7 @@ class Workout extends Model
 
     public function creator()
     {
-        return $this->hasOne(User::class, 'user_id', 'created_by');
+        return $this->hasOne(User::class, 'id', 'created_by');
     }
 
     public function sport()
