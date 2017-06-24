@@ -16,7 +16,7 @@ class UserController extends Controller
 {
 
     use RestControllerTrait;
-    const MODEL = 'App\Models\User';
+    const MODEL = 'App\User';
 
 
     /**

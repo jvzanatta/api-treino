@@ -31,6 +31,11 @@ class SportsTableSeeder extends Seeder
                 'name' => "Fisioterapia",
                 'measure' => null,
                 'unit' => null,
+            ],
+            [
+                'name' => "Nutricionismo",
+                'measure' => null,
+                'unit' => null,
             ]
         ]);
     }

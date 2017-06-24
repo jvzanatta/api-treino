@@ -10,49 +10,51 @@ use App\Http\Requests;
 
 class ExerciseController extends Controller
 {
+    use RestControllerTrait;
+    const MODEL = 'App\Exercise';
 
-    public function index(Request $request)
-    {
-        $user = $request->user();
+    // public function index(Request $request)
+    // {
+    //     $user = $request->user();
 
-        $exercises = Workout::userWorkouts($user);
+    //     $exercises = Workout::userWorkouts($user);
 
-        return response()->json($exercises);
-    }
+    //     return response()->json($exercises);
+    // }
 
-    public function read ($id)
-    {
-        $exercise = Workout::findOrFail($id);
+    // public function read ($id)
+    // {
+    //     $exercise = Workout::findOrFail($id);
 
-        return response()->json($exercise);
-    }
+    //     return response()->json($exercise);
+    // }
 
-    public function create (Request $request)
-    {
-        $user = $request->user();
-        $request_array = $request->all();
-        $request_array["created_by"] = $user->id;
+    // public function create (Request $request)
+    // {
+    //     $user = $request->user();
+    //     $request_array = $request->all();
+    //     $request_array["created_by"] = $user->id;
 
-        $exercise = Workout::create($request_array);
+    //     $exercise = Workout::create($request_array);
 
-        return response()->json($exercise);
-    }
+    //     return response()->json($exercise);
+    // }
 
-    public function update(Request $request, $id)
-    {
-        $exercise = Workout::find($id);
+    // public function update(Request $request, $id)
+    // {
+    //     $exercise = Workout::find($id);
 
-        $updated = $exercise->update($request->all());
+    //     $updated = $exercise->update($request->all());
 
-        return response()->json(['updated' => $updated, 'exercise' => $exercise]);
-    }
+    //     return response()->json(['updated' => $updated, 'exercise' => $exercise]);
+    // }
 
-    public function delete($id)
-    {
-        $deletedRows = Workout::destroy($id);
+    // public function delete($id)
+    // {
+    //     $deletedRows = Workout::destroy($id);
 
-        $deleted = $deletedRows == 1;
+    //     $deleted = $deletedRows == 1;
 
-        return response()->json(['deleted' => $deleted]);
-    }
+    //     return response()->json(['deleted' => $deleted]);
+    // }
 }

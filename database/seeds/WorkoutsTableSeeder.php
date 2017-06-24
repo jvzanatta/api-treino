@@ -13,21 +13,21 @@ class WorkoutsTableSeeder extends Seeder
     {
         DB::table('workouts')->insert([
                 [
-                    'name' => "workout1",
+                    'name' => "Treino funcional 1",
                     'created_by' => 1,
                     'schedule' => "135",
                     'sport_id' => 1,
                     'active' => 1
                 ],
                 [
-                    'name' => "workout Dois",
+                    'name' => "Treino Aeróbico 5",
                     'created_by' => 1,
                     'schedule' => "12356",
                     'sport_id' => 1,
                     'active' => 1
                 ],
                 [
-                    'name' => "Terceiro workout",
+                    'name' => "Treino ",
                     'created_by' => 1,
                     'schedule' => "1345",
                     'sport_id' => 1,
