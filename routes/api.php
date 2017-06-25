@@ -21,7 +21,7 @@ Route::group(['prefix' => 'v1'], function ()
     Route::post('login', 'UserController@login');
 
 
-    Route::group(['prefix' => 'users/', 'middleware' => 'auth:api'], function ()
+    Route::group(['prefix' => 'users', 'middleware' => 'auth:api'], function ()
     {
         Route::get('who', 'UserController@who');
         Route::get('logout', 'Auth\LoginController@logout');
@@ -29,29 +29,26 @@ Route::group(['prefix' => 'v1'], function ()
         Route::get('', 'UserController@');
         Route::get('{id}', 'WorkoutController@show');
         Route::post('', 'WorkoutController@store');
-        Route::put('{id}', 'WorkoutController@update');
+        Route::patch('{id}', 'WorkoutController@update');
     });
 
 
-    Route::group(['prefix' => 'workouts/', 'middleware' => 'auth:api'], function ()
+    Route::group(['prefix' => 'workouts', 'middleware' => 'auth:api'], function ()
     {
-        // Route::get('', 'WorkoutController@getAllWorkouts');
-        // Route::get('for_me', 'WorkoutController@getWorkoutsForMe');
-        // Route::get('by_me', 'WorkoutController@getWorkoutsByMe');
-        // Route::get('{day}', 'WorkoutController@getDayWorkouts');
         Route::get('{id}', 'WorkoutController@show');
         Route::post('', 'WorkoutController@store');
-        Route::put('{id}', 'WorkoutController@update');
+        Route::patch('{id}', 'WorkoutController@update');
+        Route::patch('{id}/exercises', 'WorkoutController@updateExercises');
         Route::delete('{id}', 'WorkoutController@delete');
     });
 
 
-    Route::group(['prefix' => 'exercises/', 'middleware' => 'auth:api'], function ()
+    Route::group(['prefix' => 'exercises', 'middleware' => 'auth:api'], function ()
     {
         Route::get('', 'ExerciseController@index');
         Route::get('{id}', 'ExerciseController@show');
         Route::post('', 'ExerciseController@store');
-        Route::put('{id}', 'ExerciseController@update');
+        Route::patch('{id}', 'ExerciseController@update');
         Route::delete('{id}', 'ExerciseController@delete');
     });
 

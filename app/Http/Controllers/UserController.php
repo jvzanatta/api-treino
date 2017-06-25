@@ -9,7 +9,7 @@ use App\Sport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Controllers\RestControllerTrait as RestControllerTrait;
+use App\Http\Traits\RestControllerTrait;
 
 
 class UserController extends Controller
@@ -55,14 +55,18 @@ class UserController extends Controller
             $user = User::where('email', $request->input('email'))->first();
 
             if ($user && Hash::check($request->input('password'), $user->password)) {
-                $api_token = $user->createToken('MobileToken')->accessToken;
+                if (!$user->api_token) {
+                    $user->api_token = $user->createToken('MobileToken')->accessToken;
+                    $user->save();
+                }
 
                 $user->getMostData();
 
                 $workouts = $user->givenWorkouts->merge($user->createdWorkouts);
 
                 $response = [
-                    'auth'            => $api_token,
+                    // 'auth'            => $user->createToken('MobileToken')->accessToken,
+                    'auth'            => $user->api_token,
                     'sports'          => Sport::getAll(),
                     'user'            => array_filter($user->toArray(), 'is_scalar'),
                     'workouts'        => $workouts,

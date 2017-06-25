@@ -6,73 +6,41 @@ use DB;
 use App\Workout;
 //use App\Http\Requests;
 use Illuminate\Http\Request;
-//use App\Http\Controllers\Controller;
+use App\Http\Traits\RestControllerTrait;
+
 
 class WorkoutController extends Controller
 {
 
-    use RestControllerTrait;
+    use RestControllerTrait {
+        RestControllerTrait::update as traitUpdate;
+        RestControllerTrait::store as traitStore;
+    }
     const MODEL = 'App\Workout';
 
-    // public function getAllWorkouts(Request $request)
-    // {
-    //     $user = $request->user();
+    protected $validationRules = [];
+    protected $validationPatchRules = [];
 
-    //     $workouts = DB::table('workouts')
-    //                       ->leftJoin('user_workouts', 'workouts.id', '=', 'user_workouts.workout_id')
-    //                       ->where('user_workouts.user_id', $user->id)
-    //                       ->orWhere('workouts.created_by', $user->id)
-    //                       ->select('workouts.*', 'user_workouts.user_id')
-    //                       ->orderBy('user_workouts.workout_id', 'desc')
-    //                       ->get();
+    public function update(Request $request, $id)
+    {
+        // Atualizar treino
+        $workout = Workout::findOrFail($id);
+        $workout->fill($request->all());
+        $workout->save();
 
-    //     return response()->json($workouts);
-    // }
+        // Atualizar vínculos com exercícios
+        $exercises = [];
+        foreach($request->input('exercises') as $exercise) {
+            unset($exercise['pivot']['workout_id']);
+            unset($exercise['pivot']['exercise_id']);
+            $exercises[$exercise['id']] = $exercise['pivot'];
+        }
+        $workout->exercises()->sync($exercises);
 
-    // public function getWorkoutsForMe(Request $request)
-    // {
-    //     $user = $request->user();
+        $workout->load('exercises', 'sport', 'creator');
 
-    //     $workouts = DB::table('workouts')
-    //                       ->leftJoin('user_workouts', 'workouts.id', '=', 'user_workouts.workout_id')
-    //                       ->where('user_workouts.user_id', $user->id)
-    //                       ->select('workouts.*', 'user_workouts.user_id')
-    //                       ->orderBy('user_workouts.workout_id', 'desc')
-    //                       ->get();
-
-    //     return response()->json($workouts);
-    // }
-
-    // public function getWorkoutsByMe(Request $request)
-    // {
-    //     $user = $request->user();
-
-    //     $workouts = Workout::where('created_by', $user->id)->get();
-
-    //     return response()->json($workouts);
-    // }
-
-    // public function getDayWorkouts(Request $request, $day)
-    // {
-    //     $user = $request->user();
-
-    //     $workouts = DB::table('workouts')
-    //                     ->leftJoin('user_workouts', 'workouts.id', '=', 'user_workouts.workout_id')
-    //                     ->leftJoin('workout_exercises', 'workouts.id', '=', 'workout_exercises.workout_id')
-    //                     ->where([['workout_exercises.day', $day],['user_workouts.user_id', $user->id]])
-    //                     ->select('workouts.*', 'workout_exercises.*')
-    //                     ->orderBy('user_workouts.workout_id', 'desc')
-    //                     ->get();
-
-    //     return response()->json($workouts);
-    // }
-
-    // public function read ($id)
-    // {
-    //     $workout = Workout::findOrFail($id);
-
-    //     return response()->json($workout);
-    // }
+        return $this->showResponse($workout);
+    }
 
     // public function create (Request $request)
     // {
@@ -83,15 +51,6 @@ class WorkoutController extends Controller
     //     $workout = Workout::create($request_array);
 
     //     return response()->json($workout);
-    // }
-
-    // public function update(Request $request, $id)
-    // {
-    //     $workout = Workout::find($id);
-
-    //     $updated = $workout->update($request->all());
-
-    //     return response()->json(['updated' => $updated, 'workout' => $workout]);
     // }
 
     // public function delete($id)
