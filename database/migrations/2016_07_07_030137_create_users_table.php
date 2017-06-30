@@ -22,12 +22,14 @@ class CreateUsersTable extends Migration
             $table->text('api_token')->nullable();
             $table->enum('gender', ['M', 'F']);
             $table->string('nick_name', 50)->nullable();
+            $table->string('picture', 300)->nullable();
             $table->date('birth_date')->nullable();
             $table->string('password', 100);
             $table->decimal('weight', 6, 3)->nullable()->unsigned();
             $table->decimal('height', 6, 3)->nullable()->unsigned();
             $table->integer('is_coach')->default(0);
             $table->string('facebook_id', 100)->nullable();
+            $table->string('facebook_link', 200)->nullable();
             $table->string('google_id', 100)->nullable();
             $table->timestamps();
 

@@ -20,25 +20,39 @@ class WorkoutsTableSeeder extends Seeder
                     'active' => 1
                 ],
                 [
-                    'name' => "Treino Aeróbico 5",
+                    'name' => "Treino Aeróbico 2",
                     'created_by' => 1,
                     'schedule' => "12356",
                     'sport_id' => 1,
                     'active' => 1
                 ],
                 [
-                    'name' => "Treino ",
+                    'name' => "Treino 3",
                     'created_by' => 1,
                     'schedule' => "1345",
                     'sport_id' => 1,
                     'active' => 0
                 ],
                 [
-                    'name' => "4º workout",
+                    'name' => "Treino 4",
                     'created_by' => 1,
                     'schedule' => "0146",
                     'sport_id' => 1,
                     'active' => 0
+                ],
+                [
+                    'name' => "Dieta 5",
+                    'created_by' => 1,
+                    'schedule' => "0123456",
+                    'sport_id' => 5,
+                    'active' => 1
+                ],
+                [
+                    'name' => "Dieta 6",
+                    'created_by' => 10,
+                    'schedule' => "0123456",
+                    'sport_id' => 5,
+                    'active' => 1
                 ]
 
             ]);

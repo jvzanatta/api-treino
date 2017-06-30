@@ -177,10 +177,6 @@ class ExercisesTableSeeder extends Seeder
                 'exercise_group_id' => 5
             ],
             [
-                'name' => "Dips",
-                'exercise_group_id' => 5
-            ],
-            [
                 'name' => "Supino",
                 'exercise_group_id' => 6
             ],
@@ -329,5 +325,119 @@ class ExercisesTableSeeder extends Seeder
                 'exercise_group_id' => 10
             ]
         ]);
+
+        $nutritionTimeArray = [
+            '07h',
+            '10h',
+            '13h',
+            '16h',
+            '19h',
+            '22h',
+        ];
+
+        $nutritionFoodArray = [
+            'Pães',
+            'Massas',
+            'Arroz',
+            'Batata',
+            'Cereais',
+            'Folhagens',
+            'Cenoura',
+            'Abóbora',
+            'Beterraba',
+            'Laranja',
+            'Limão',
+            'Acerola',
+            'Melão',
+            'Uva',
+            'Abacaxi',
+            'Manga',
+            'Kiwi',
+            'Mamão',
+            'Ovos',
+            'Feijão',
+            'Lentilha',
+            'Grão-de-bico',
+            'Nozes',
+            'Castanhas',
+            'Leite',
+            'Iogurtes',
+            'Coalhadas',
+            'Queijos',
+        ];
+
+        foreach ($nutritionTimeArray as $groupName) {
+            $groupId = App\ExerciseGroup::where('name', $groupName)->first()->id;
+            foreach ($nutritionFoodArray as $foodName) {
+                App\Exercise::create(['name' => $foodName, 'exercise_group_id' => $groupId]);
+            }
+        }
+
+        $nutritionTypeArray = [
+            'Carboidratos' => 'Pães',
+            'Carboidratos' => 'Massas',
+            'Carboidratos' => 'Arroz',
+            'Carboidratos' => 'Batata',
+            'Carboidratos' => 'Cereais',
+
+            'Verduras e legumes' => 'Folhagens',
+            'Verduras e legumes' => 'Cenoura',
+            'Verduras e legumes' => 'Abóbora',
+            'Verduras e legumes' => 'Beterraba',
+
+            'Frutas' => 'Laranja',
+            'Frutas' => 'Limão',
+            'Frutas' => 'Acerola',
+            'Frutas' => 'Melão',
+            'Frutas' => 'Uva',
+            'Frutas' => 'Abacaxi',
+            'Frutas' => 'Manga',
+            'Frutas' => 'Kiwi',
+            'Frutas' => 'Mamão',
+
+            'Proteínas' => 'Ovos',
+            'Proteínas' => 'Feijão',
+            'Proteínas' => 'Lentilha',
+            'Proteínas' => 'Grão-de-bico',
+            'Proteínas' => 'Nozes',
+            'Proteínas' => 'Castanhas',
+
+            'Laticínios' => 'Leite',
+            'Laticínios' => 'Iogurtes',
+            'Laticínios' => 'Coalhadas',
+            'Laticínios' => 'Queijos',
+        ];
+
+        foreach ($nutritionTypeArray as $groupName => $foodName) {
+            $groupId = App\ExerciseGroup::where('name', $groupName)->first()->id;
+            App\Exercise::create(['name' => $foodName, 'exercise_group_id' => $groupId]);
+        }
+
+        $nutritionArray = [
+            'Costas' => 'Puxar cotovelo sobre cabeça',
+            'Costas' => 'Mãos para trás',
+            'Costas' => 'Tocar o céu',
+
+            'Pernas' => 'Abraçar as pernas',
+            'Pernas' => 'Alcançar o dedão',
+            'Pernas' => 'Elevação',
+            'Pernas' => 'Puxar o pé',
+            'Pernas' => 'Pedido de casamento',
+            'Pernas' => 'Esticar perna',
+
+            'Braços' => 'Agarrar dedos',
+            'Braços' => 'Agarrar dedos (invertido)',
+
+            'Ombros' => '"Eu não sei"',
+            'Ombros' => 'Cabeça para os lados',
+
+            'Joelhos' => 'Flexionar joelho',
+        ];
+
+        foreach ($nutritionArray as $groupName => $exerciseName) {
+            $groupId = App\ExerciseGroup::where('name', $groupName)->first()->id;
+            App\Exercise::create(['name' => $exerciseName, 'exercise_group_id' => $groupId]);
+        }
+
     }
 }

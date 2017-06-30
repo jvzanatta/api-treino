@@ -33,12 +33,13 @@ class User extends Authenticatable
 
     public function pupils()
     {
-        return $this->belongsToMany(User::class, 'user_coaches', 'user_id', 'coach_id');
+        return $this->belongsToMany(User::class, 'user_coaches', 'coach_id', 'user_id');
     }
 
     public function coaches()
     {
         return $this->belongsToMany(User::class, 'user_coaches', 'coach_id', 'user_id');
+        // return $this->belongsToMany(User::class, 'user_coaches', 'user_id', 'coach_id');
     }
 
     public function givenWorkouts()
