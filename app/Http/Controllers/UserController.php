@@ -18,7 +18,6 @@ class UserController extends Controller
     use RestControllerTrait;
     const MODEL = 'App\User';
 
-
     /**
      * Instantiate a new UserController instance.
      *
@@ -29,21 +28,21 @@ class UserController extends Controller
         //
     }
 
-    public function register (Request $request)
+    public function register(Request $request)
     {
         $this->validate($request, [
             'password' => 'required|min:4',
             'email'    => 'required|email|unique:users'
         ]);
 
-        $user = User::fill($request->all());
+        $user = User::create($request->all());
         $user->password = Hash::make($user->password);
         $user->save();
 
-        return $user;
+        return $this->login($request);
     }
 
-    public function login (Request $request)
+    public function login(Request $request)
     {
         $this->validate($request, [
             'password' => 'required',
