@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Traits\RestControllerTrait;
-
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -83,6 +83,27 @@ class UserController extends Controller
         return $this->notFoundResponse();
     }
 
+    public function getMostData(Request $request)
+    {
+        $user = $request->user();
+
+        $user->getMostData();
+
+        $workouts = $user->givenWorkouts->merge($user->createdWorkouts);
+
+        $response = [
+            'sports'          => Sport::getAll(),
+            'user'            => array_filter($user->toArray(), 'is_scalar'),
+            'workouts'        => $workouts,
+            'givenWorkouts'   => $user->givenWorkouts->pluck('id')->toArray(),
+            'createdWorkouts' => $user->createdWorkouts->pluck('id')->toArray(),
+            'pupils'          => $user->pupils->toArray(),
+            'coaches'         => $user->coaches->toArray(),
+        ];
+
+        return $this->showResponse($response);
+    }
+
     public function getPupils(Request $request)
     {
         $user = $request->user();
@@ -104,6 +125,29 @@ class UserController extends Controller
         return $request->user();
     }
 
+    public function addPupil(Request $request)
+    {
+        if ($request->has('email') &&
+            $pupil = User::where('email', $request->input('email'))->first())
+        {
+            $user = $request->user();
+            $user->pupils()->attach([$pupil->id => ['created_at' => Carbon::now()]]);
 
+            return $this->showResponse($pupil);
+        }
+        return $this->notFoundResponse();
+    }
+
+    public function removePupil(Request $request, $id)
+    {
+        if (User::find($id))
+        {
+            $user = $request->user();
+            $user->pupils()->detach($id);
+
+            return $this->showResponse(true);
+        }
+        return $this->notFoundResponse();
+    }
 
 }

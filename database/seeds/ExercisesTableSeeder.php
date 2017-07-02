@@ -326,6 +326,8 @@ class ExercisesTableSeeder extends Seeder
             ]
         ]);
 
+        $nutritionId = App\Sport::where('name', 'Nutricionismo')->first()->id;
+
         $nutritionTimeArray = [
             '07h',
             '10h',
@@ -367,76 +369,89 @@ class ExercisesTableSeeder extends Seeder
         ];
 
         foreach ($nutritionTimeArray as $groupName) {
-            $groupId = App\ExerciseGroup::where('name', $groupName)->first()->id;
+            $groupId = App\ExerciseGroup::where([['name', $groupName], ['sport_id', $nutritionId]])->first()->id;
             foreach ($nutritionFoodArray as $foodName) {
                 App\Exercise::create(['name' => $foodName, 'exercise_group_id' => $groupId]);
             }
         }
 
         $nutritionTypeArray = [
-            'Carboidratos' => 'Pães',
-            'Carboidratos' => 'Massas',
-            'Carboidratos' => 'Arroz',
-            'Carboidratos' => 'Batata',
-            'Carboidratos' => 'Cereais',
+            'Carboidratos' => ['Pães',
+                'Massas',
+                'Arroz',
+                'Batata',
+                'Cereais'
+            ],
 
-            'Verduras e legumes' => 'Folhagens',
-            'Verduras e legumes' => 'Cenoura',
-            'Verduras e legumes' => 'Abóbora',
-            'Verduras e legumes' => 'Beterraba',
+            'Verduras e legumes' => ['Folhagens',
+                'Cenoura',
+                'Abóbora',
+                'Beterraba'
+            ],
 
-            'Frutas' => 'Laranja',
-            'Frutas' => 'Limão',
-            'Frutas' => 'Acerola',
-            'Frutas' => 'Melão',
-            'Frutas' => 'Uva',
-            'Frutas' => 'Abacaxi',
-            'Frutas' => 'Manga',
-            'Frutas' => 'Kiwi',
-            'Frutas' => 'Mamão',
+            'Frutas' => ['Laranja',
+                'Limão',
+                'Acerola',
+                'Melão',
+                'Uva',
+                'Abacaxi',
+                'Manga',
+                'Kiwi',
+                'Mamão'
+            ],
 
-            'Proteínas' => 'Ovos',
-            'Proteínas' => 'Feijão',
-            'Proteínas' => 'Lentilha',
-            'Proteínas' => 'Grão-de-bico',
-            'Proteínas' => 'Nozes',
-            'Proteínas' => 'Castanhas',
+            'Proteínas' => ['Ovos',
+                'Feijão',
+                'Lentilha',
+                'Grão-de-bico',
+                'Nozes',
+                'Castanhas'
+            ],
 
-            'Laticínios' => 'Leite',
-            'Laticínios' => 'Iogurtes',
-            'Laticínios' => 'Coalhadas',
-            'Laticínios' => 'Queijos',
+            'Laticínios' => ['Leite',
+                'Iogurtes',
+                'Coalhadas',
+                'Queijos'
+            ],
         ];
 
-        foreach ($nutritionTypeArray as $groupName => $foodName) {
+        foreach ($nutritionTypeArray as $groupName => $foods) {
             $groupId = App\ExerciseGroup::where('name', $groupName)->first()->id;
-            App\Exercise::create(['name' => $foodName, 'exercise_group_id' => $groupId]);
+
+            foreach ($foods as $foodName) {
+                App\Exercise::create(['name' => $foodName, 'exercise_group_id' => $groupId]);
+            }
         }
 
-        $nutritionArray = [
-            'Costas' => 'Puxar cotovelo sobre cabeça',
-            'Costas' => 'Mãos para trás',
-            'Costas' => 'Tocar o céu',
+        $fisioId = App\Sport::where('name', 'Fisioterapia')->first()->id;
 
-            'Pernas' => 'Abraçar as pernas',
-            'Pernas' => 'Alcançar o dedão',
-            'Pernas' => 'Elevação',
-            'Pernas' => 'Puxar o pé',
-            'Pernas' => 'Pedido de casamento',
-            'Pernas' => 'Esticar perna',
+        $fisioArray = [
+            'Costas' => ['Puxar cotovelo sobre cabeça',
+                'Mãos para trás',
+                'Tocar o céu'],
 
-            'Braços' => 'Agarrar dedos',
-            'Braços' => 'Agarrar dedos (invertido)',
+            'Pernas' => ['Abraçar as pernas',
+                'Alcançar o dedão',
+                'Elevação',
+                'Puxar o pé',
+                'Pedido de casamento',
+                'Esticar perna'],
 
-            'Ombros' => '"Eu não sei"',
-            'Ombros' => 'Cabeça para os lados',
+            'Braços' => ['Agarrar dedos',
+                'Agarrar dedos (invertido)'],
 
-            'Joelhos' => 'Flexionar joelho',
+            'Ombros' => ['"Eu não sei"',
+                'Cabeça para os lados'],
+
+            'Joelhos' => ['Flexionar joelho'],
         ];
 
-        foreach ($nutritionArray as $groupName => $exerciseName) {
-            $groupId = App\ExerciseGroup::where('name', $groupName)->first()->id;
-            App\Exercise::create(['name' => $exerciseName, 'exercise_group_id' => $groupId]);
+        foreach ($fisioArray as $groupName => $exercises) {
+            $groupId = App\ExerciseGroup::where([['name', $groupName], ['sport_id', $fisioId]])->first()->id;
+
+            foreach ($exercises as $exerciseName) {
+                App\Exercise::create(['name' => $exerciseName, 'exercise_group_id' => $groupId]);
+            }
         }
 
     }

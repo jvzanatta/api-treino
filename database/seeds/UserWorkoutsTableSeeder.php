@@ -21,12 +21,20 @@ class UserWorkoutsTableSeeder extends Seeder
                     'workout_id' => 2
                 ],
                 [
+                    'user_id' => 2,
+                    'workout_id' => 2
+                ],
+                [
                     'user_id' => 1,
                     'workout_id' => 3
                 ],
                 [
                     'user_id' => 1,
                     'workout_id' => 4
+                ],
+                [
+                    'user_id' => 1,
+                    'workout_id' => 7
                 ]
             ]);
     }

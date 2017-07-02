@@ -80,7 +80,7 @@ class UsersTableSeeder extends Seeder
             'first_name' => "Gabriel",
             'last_name' => "Toneti",
             'gender' => 'F',
-            'email' => "teste5@gmail.com",
+            'email' => "teste4@gmail.com",
             'password' => Hash::make('321654'),
             'birth_date' => "1990-05-22",
             'weight' => 72.0,
@@ -89,8 +89,8 @@ class UsersTableSeeder extends Seeder
             'facebook_id' => null
         ]);
         App\User::create([
-            'first_name' => "Fisioterapia",
-            'last_name' => "Fisioterapia",
+            'first_name' => "Fisioterapeuta",
+            'last_name' => "Fisioterapeuta",
             'gender' => 'F',
             'email' => "fisio@gmail.com",
             'password' => Hash::make('321654'),

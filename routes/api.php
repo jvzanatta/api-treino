@@ -24,19 +24,25 @@ Route::group(['prefix' => 'v1'], function ()
     Route::group(['prefix' => 'users', 'middleware' => 'auth:api'], function ()
     {
         Route::get('who', 'UserController@who');
+        Route::get('data', 'UserController@getMostData');
         Route::get('logout', 'Auth\LoginController@logout');
-        Route::get('test', function () {return 'authenticated';});
-        Route::get('', 'UserController@');
+        // Route::get('', 'UserController@index');
         Route::get('{id}', 'WorkoutController@show');
         Route::post('', 'WorkoutController@store');
         Route::patch('{id}', 'WorkoutController@update');
+    });
+
+    Route::group(['prefix' => 'coaches', 'middleware' => 'auth:api'], function ()
+    {
+        Route::post('users', 'UserController@addPupil');
+        Route::post('users/{id}', 'UserController@removePupil');
     });
 
 
     Route::group(['prefix' => 'workouts', 'middleware' => 'auth:api'], function ()
     {
         Route::get('{id}', 'WorkoutController@show');
-        Route::post('', 'WorkoutController@store');
+        Route::post('', 'WorkoutController@traitStore');
         Route::patch('{id}', 'WorkoutController@update');
         Route::patch('{id}/exercises', 'WorkoutController@updateExercises');
         Route::delete('{id}', 'WorkoutController@delete');
