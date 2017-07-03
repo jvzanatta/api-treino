@@ -15,6 +15,7 @@ class WorkoutController extends Controller
     use RestControllerTrait {
         RestControllerTrait::update as traitUpdate;
         RestControllerTrait::store as traitStore;
+        RestControllerTrait::destroy as destroyStore;
     }
     const MODEL = 'App\Workout';
 
@@ -23,42 +24,70 @@ class WorkoutController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Atualizar treino
-        $workout = Workout::findOrFail($id);
-        $workout->fill($request->all());
-        $workout->save();
+        try {
+            // Atualizar treino
+            $workout = Workout::findOrFail($id);
+            $workout->fill($request->all());
+            $workout->save();
 
-        // Atualizar vínculos com exercícios
-        $exercises = [];
-        foreach($request->input('exercises') as $exercise) {
-            unset($exercise['pivot']['workout_id']);
-            unset($exercise['pivot']['exercise_id']);
-            $exercises[$exercise['id']] = $exercise['pivot'];
+            // Atualizar vínculos com exercícios
+            $exercises = [];
+            foreach($request->input('exercises') as $exercise) {
+                unset($exercise['pivot']['workout_id']);
+                unset($exercise['pivot']['exercise_id']);
+                $exercises[$exercise['id']] = $exercise['pivot'];
+            }
+            $workout->exercises()->sync($exercises);
+
+            $workout->load('exercises', 'sport', 'creator');
+
+            return $this->showResponse($workout);
+        } catch(\Exception $ex) {
+            $data = ['exception' => $ex->getMessage()];
+            return $this->clientErrorResponse($data);
         }
-        $workout->exercises()->sync($exercises);
-
-        $workout->load('exercises', 'sport', 'creator');
-
-        return $this->showResponse($workout);
     }
 
-    // public function create (Request $request)
-    // {
-    //     $user = $request->user();
-    //     $request_array = $request->all();
-    //     $request_array["created_by"] = $user->id;
+    public function destroy(Request $request, $id)
+    {
+        if (!$request->user()->owns(Workout::find($id))) {
+            return $this->notFoundResponse();
+        }
+        return $this->destroyStore($id);
+    }
 
-    //     $workout = Workout::create($request_array);
+    public function store(Request $request)
+    {
+        return $this->traitStore($request);
+    }
 
-    //     return response()->json($workout);
-    // }
+    public function share(Request $request, $workoutId, $userId)
+    {
+        try {
+            $workout = Workout::find($workoutId);
+            if (!$request->user()->owns($workout)) {
+                return $this->notFoundResponse();
+            }
+            $workout->users()->attach($userId);
+            return $this->showResponse(true);
+        } catch(\Exception $ex) {
+            $data = ['exception' => $ex->getMessage()];
+            return $this->clientErrorResponse($data);
+        }
+    }
 
-    // public function delete($id)
-    // {
-    //     $deletedRows = Workout::destroy($id);
-
-    //     $deleted = $deletedRows == 1;
-
-    //     return response()->json(['deleted' => $deleted]);
-    // }
+    public function unshare(Request $request, $workoutId, $userId)
+    {
+        try {
+            $workout = Workout::find($workoutId);
+            if (!$request->user()->owns($workout)) {
+                return $this->notFoundResponse();
+            }
+            $workout->users()->detach($userId);
+            return $this->showResponse(true);
+        } catch(\Exception $ex) {
+            $data = ['exception' => $ex->getMessage()];
+            return $this->clientErrorResponse($data);
+        }
+    }
 }

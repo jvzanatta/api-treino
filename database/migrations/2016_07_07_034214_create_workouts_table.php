@@ -21,6 +21,7 @@ class CreateWorkoutsTable extends Migration
             $table->boolean('detail')->default(1);
             $table->integer('created_by')->nullable()->unsigned();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('sport_id')->references('id')->on('sports');
             $table->foreign('created_by')->references('id')->on('users');

@@ -6,10 +6,11 @@ use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Token as Token;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-
+    use SoftDeletes;
     use HasApiTokens, Notifiable;
 
     protected $fillable = [
@@ -71,6 +72,11 @@ class User extends Authenticatable
             'pupils',
             'coaches'
         );
+    }
+
+    public function owns($workout)
+    {
+        return $this->id == $workout->created_by;
     }
 
 }

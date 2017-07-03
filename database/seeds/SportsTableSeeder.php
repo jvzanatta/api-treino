@@ -33,7 +33,7 @@ class SportsTableSeeder extends Seeder
                 'unit' => 'time',
             ],
             [
-                'name' => "Nutricionismo",
+                'name' => "Nutrição",
                 'measure' => null,
                 'unit' => null,
             ]

@@ -326,7 +326,7 @@ class ExercisesTableSeeder extends Seeder
             ]
         ]);
 
-        $nutritionId = App\Sport::where('name', 'Nutricionismo')->first()->id;
+        $nutritionId = App\Sport::where('name', 'Nutrição')->first()->id;
 
         $nutritionTimeArray = [
             '07h',

@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->string('facebook_link', 200)->nullable();
             $table->string('google_id', 100)->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['id', 'birth_date']);
             $table->index(['id', 'email']);

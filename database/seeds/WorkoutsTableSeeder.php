@@ -51,14 +51,14 @@ class WorkoutsTableSeeder extends Seeder
                 'name' => "Dieta 6",
                 'created_by' => App\User::where('first_name', 'João Victor')->first()->id,
                 'schedule' => "0123456",
-                'sport_id' => App\Sport::where('name', 'Nutricionismo')->first()->id,
+                'sport_id' => App\Sport::where('name', 'Nutrição')->first()->id,
                 'active' => 1
             ],
             [
                 'name' => "Dieta 7",
                 'created_by' => App\User::where('first_name', 'Nutricionista')->first()->id,
                 'schedule' => "0123456",
-                'sport_id' => App\Sport::where('name', 'Nutricionismo')->first()->id,
+                'sport_id' => App\Sport::where('name', 'Nutrição')->first()->id,
                 'active' => 1
             ],
             [
