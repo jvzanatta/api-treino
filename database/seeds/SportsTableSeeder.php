@@ -11,32 +11,30 @@ class SportsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('sports')->insert([
-            [
-                'name' => "Musculação",
-                'measure' => 'kg',
-                'unit' => 'weight',
-            ],
-            [
-                'name' => "Natação",
-                'measure' => 'metros',
-                'unit' => 'length',
-            ],
-            [
-                'name' => "Corrida",
-                'measure' => 'km',
-                'unit' => 'length',
-            ],
-            [
-                'name' => "Fisioterapia",
-                'measure' => 'seg',
-                'unit' => 'time',
-            ],
-            [
-                'name' => "Nutrição",
-                'measure' => null,
-                'unit' => null,
-            ]
+        App\Sport::create([
+            'name' => "Musculação",
+            'measure' => 'kg',
+            'unit' => 'weight',
+        ]);
+        App\Sport::create([
+            'name' => "Natação",
+            'measure' => 'metros',
+            'unit' => 'length',
+        ]);
+        App\Sport::create([
+            'name' => "Corrida",
+            'measure' => 'km',
+            'unit' => 'length',
+        ]);
+        App\Sport::create([
+            'name' => "Fisioterapia",
+            'measure' => 'seg',
+            'unit' => 'time',
+        ]);
+        App\Sport::create([
+            'name' => "Nutrição",
+            'measure' => null,
+            'unit' => null,
         ]);
     }
 }

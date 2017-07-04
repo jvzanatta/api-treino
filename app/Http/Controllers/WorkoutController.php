@@ -32,11 +32,14 @@ class WorkoutController extends Controller
 
             // Atualizar vínculos com exercícios
             $exercises = [];
-            foreach($request->input('exercises') as $exercise) {
-                unset($exercise['pivot']['workout_id']);
-                unset($exercise['pivot']['exercise_id']);
-                $exercises[$exercise['id']] = $exercise['pivot'];
+            if ($request->has('exercises')) {
+               foreach($request->input('exercises') as $exercise) {
+                   unset($exercise['pivot']['workout_id']);
+                   unset($exercise['pivot']['exercise_id']);
+                   $exercises[$exercise['id']] = $exercise['pivot'];
+               }
             }
+
             $workout->exercises()->sync($exercises);
 
             $workout->load('exercises', 'sport', 'creator');
