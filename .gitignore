@@ -115,17 +115,8 @@ nb-configuration.xml
 !.jshintrc
 !.htaccess
 
-# Fotos mobile
-assets/uploads/*
-
 # Anexos
 public/fotos/*
-
-# Anexos
-public/anexos/*
-
-# Tiles
-tiles/*
 
 # Docker
 .env
