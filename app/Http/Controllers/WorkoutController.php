@@ -61,7 +61,21 @@ class WorkoutController extends Controller
 
     public function store(Request $request)
     {
-        return $this->traitStore($request);
+        try {
+            $v = \Validator::make($request->all(), $this->validationRules);
+            if ($v->fails()) {
+                throw new \Exception("ValidationException");
+            }
+            $data = $request->all();
+            $data['created_by'] = $request->user()->id;
+
+            $workout = Workout::create($data);
+            $workout->load('exercises', 'sport', 'creator');
+            return $this->createdResponse($workout);
+        } catch(\Exception $ex) {
+            $data = ['form_validations' => $v->errors(), 'exception' => $ex->getMessage()];
+            return $this->clientErrorResponse($data);
+        }
     }
 
     public function share(Request $request, $workoutId, $userId)
