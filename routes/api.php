@@ -30,12 +30,13 @@ Route::group(['prefix' => 'v1'], function ()
         Route::get('{id}', 'WorkoutController@show');
         Route::post('', 'WorkoutController@store');
         Route::patch('{id}', 'WorkoutController@update');
+
+        Route::delete('{id}/unfriend', 'UserController@removeContact');
     });
 
     Route::group(['prefix' => 'coaches', 'middleware' => 'auth:api'], function ()
     {
         Route::post('users', 'UserController@addPupil');
-        Route::delete('users/{id}', 'UserController@removePupil');
     });
 
 
@@ -48,6 +49,7 @@ Route::group(['prefix' => 'v1'], function ()
 
         // Route::patch('{id}/exercises', 'WorkoutController@updateExercises');
 
+        Route::patch('/users/{userId}/sync', 'WorkoutController@sync');
         Route::post('{workoutId}/users/{userId}', 'WorkoutController@share');
         Route::delete('{workoutId}/users/{userId}', 'WorkoutController@unshare');
     });

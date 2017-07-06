@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Workout;
+use App\User;
 //use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Traits\RestControllerTrait;
@@ -42,7 +43,7 @@ class WorkoutController extends Controller
 
             $workout->exercises()->sync($exercises);
 
-            $workout->load('exercises', 'sport', 'creator');
+            $workout->load('exercises', 'sport', 'creator', 'users');
 
             return $this->showResponse($workout);
         } catch(\Exception $ex) {
@@ -70,10 +71,39 @@ class WorkoutController extends Controller
             $data['created_by'] = $request->user()->id;
 
             $workout = Workout::create($data);
-            $workout->load('exercises', 'sport', 'creator');
+            $workout->load('exercises', 'sport', 'creator', 'users');
             return $this->createdResponse($workout);
         } catch(\Exception $ex) {
             $data = ['form_validations' => $v->errors(), 'exception' => $ex->getMessage()];
+            return $this->clientErrorResponse($data);
+        }
+    }
+
+    public function sync(Request $request, $userId)
+    {
+        try {
+            if (!($request->has('workouts') && $pupil = User::find($userId))) {
+                return $this->notFoundResponse();
+            }
+            $user       = $request->user();
+            $workouts   = $user->createdWorkouts;
+            $workoutIds = $request->input('workouts');
+
+            $filter = function ($workout) use ($workoutIds) {return in_array($workout->id, $workoutIds);};
+
+            $share    = $workouts->filter($filter);
+            $notShare = $workouts->reject($filter);
+
+            $pupil->givenWorkouts()->detach($notShare);
+            $pupil->givenWorkouts()->syncWithoutDetaching($share);
+
+            $workouts = $user->givenWorkouts->merge($user->createdWorkouts);
+            $workouts->load('exercises', 'sport', 'creator', 'users');
+
+            return $this->showResponse($workouts);
+
+        } catch(\Exception $ex) {
+            $data = ['exception' => $ex->getMessage()];
             return $this->clientErrorResponse($data);
         }
     }

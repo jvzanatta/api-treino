@@ -131,19 +131,24 @@ class UserController extends Controller
             $pupil = User::where('email', $request->input('email'))->first())
         {
             $user = $request->user();
-            $user->pupils()->attach([$pupil->id => ['created_at' => Carbon::now()]]);
+
+            if (!$user->pupils->contains('id', $pupil->id)){
+                $user->pupils()
+                    ->attach([$pupil->id => ['created_at' => Carbon::now()]]);
+            }
 
             return $this->showResponse($pupil);
         }
         return $this->notFoundResponse();
     }
 
-    public function removePupil(Request $request, $id)
+    public function removeContact(Request $request, $id)
     {
         if (User::find($id))
         {
             $user = $request->user();
             $user->pupils()->detach($id);
+            $user->coaches()->detach($id);
 
             return $this->showResponse(true);
         }

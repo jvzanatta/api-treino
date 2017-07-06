@@ -39,7 +39,7 @@ class User extends Authenticatable
 
     public function coaches()
     {
-        return $this->belongsToMany(User::class, 'user_coaches', 'coach_id', 'user_id');
+        return $this->belongsToMany(User::class, 'user_coaches', 'user_id', 'coach_id');
         // return $this->belongsToMany(User::class, 'user_coaches', 'user_id', 'coach_id');
     }
 
@@ -65,10 +65,12 @@ class User extends Authenticatable
             'givenWorkouts.exercises',
             'givenWorkouts.sport',
             'givenWorkouts.creator',
+            'givenWorkouts.users',
             'createdWorkouts',
             'createdWorkouts.exercises',
             'createdWorkouts.sport',
             'createdWorkouts.creator',
+            'createdWorkouts.users',
             'pupils',
             'coaches'
         );

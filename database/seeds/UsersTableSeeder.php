@@ -34,8 +34,8 @@ class UsersTableSeeder extends Seeder
             'email' => "xuxu@gmail.com",
             'password' => Hash::make('321654'),
             'birth_date' => "1988-05-28",
-            'weight' => 75.0,
-            'height' => 1.72,
+            'weight' => 52.0,
+            'height' => 1.60,
             'is_coach' => 0,
             'facebook_id' => null
         ]);

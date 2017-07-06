@@ -12,7 +12,7 @@ class SportsTableSeeder extends Seeder
     public function run()
     {
         App\Sport::create([
-            'name' => "Musculação",
+            'name' => "Academia",
             'measure' => 'kg',
             'unit' => 'weight',
         ]);
@@ -33,6 +33,11 @@ class SportsTableSeeder extends Seeder
         ]);
         App\Sport::create([
             'name' => "Nutrição",
+            'measure' => null,
+            'unit' => null,
+        ]);
+        App\Sport::create([
+            'name' => "Ginástica",
             'measure' => null,
             'unit' => null,
         ]);
