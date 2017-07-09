@@ -64,16 +64,15 @@ class User extends Authenticatable
     //     return $this->belongsToMany(Message::class);
     // }
 
-    public function sentMessage()
+    public function sentMessages()
     {
         return $this->hasMany(Message::class, 'from');
     }
 
-    public function receivedMessage()
+    public function receivedMessages()
     {
         return $this->hasMany(Message::class, 'to');
     }
-
 
     public function getMostData()
     {

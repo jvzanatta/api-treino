@@ -74,14 +74,11 @@ Route::group(['prefix' => 'v1'], function ()
 
     Route::group(['prefix' => 'messages', 'middleware' => 'auth:api'], function ()
     {
-        Route::get('', 'MessageController@all');
-        // Route::get('new', 'MessageController@allNew');
+        Route::get('from/{contactId}/new/count', 'MessageController@checkNewFrom');
         Route::get('between/{contactId}', 'MessageController@list');
         Route::get('between/{contactId}/offset/{offset}', 'MessageController@list');
         Route::get('between/{contactId}/offset/{offset}/limit/{limit}', 'MessageController@list');
         Route::post('to/{contactId}', 'MessageController@store');
-        // Route::patch('{id}', 'MessageController@update');
-        // Route::delete('{id}', 'MessageController@delete');
     });
 
 });

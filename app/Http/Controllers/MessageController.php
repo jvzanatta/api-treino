@@ -15,22 +15,25 @@ class MessageController extends Controller
     use SoftDeletes;
     use RestControllerTrait;
 
-    // public function list(Request $request)
-    // {
+    public function checkNewFrom(Request $request, $contactId)
+    {
 
-    // }
+        try {
+            $user = $request->user();
 
-    // public function allNew(Request $request)
-    // {
+            $newMessagesCount = $user->receivedMessages()->where([['from', $contactId], ['seen', null]])->count();
 
-    // }
+            return $this->showResponse($newMessagesCount);
+        } catch(\Exception $ex) {
+            $data = ['exception' => $ex->getMessage()];
+            return $this->clientErrorResponse($data);
+        }
+    }
 
     public function list(Request $request, $contactId, $offset = 0, $limit = 10)
     {
         try {
             $user = $request->user();
-            // $limit = $request->input('limit') ?? 10;
-            // $offset = $request->input('offset') ?? 0;
 
             $messages = DB::select("
                 SELECT m.*

@@ -31,6 +31,6 @@ class CreateTableMessagesUsers extends Migration
      */
     public function down()
     {
-        // Schema::dropIfExists('message_user');
+        Schema::dropIfExists('message_user');
     }
 }
