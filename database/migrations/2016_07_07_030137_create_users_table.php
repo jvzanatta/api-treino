@@ -31,6 +31,8 @@ class CreateUsersTable extends Migration
             $table->decimal('height', 6, 3)->nullable()->unsigned();
             $table->smallInteger('is_coach')->default(1);
             $table->text('info')->nullable();
+            $table->text('goal')->nullable();
+            $table->text('limitations')->nullable();
             $table->string('facebook_id', 100)->nullable();
             $table->string('facebook_link', 200)->nullable();
             $table->string('google_id', 100)->nullable();

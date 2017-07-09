@@ -12,50 +12,50 @@ class MessageTableSeeder extends Seeder
      */
     public function run()
     {
-        $seconds = 0;
+        $minutes = -999;
 
         App\Message::create([
             'from' => 2,
             'to' => 1,
-            'seen' => Carbon::now()->addSeconds(++$seconds + 2000),
+            'seen' => Carbon::now()->addMinutes(++$minutes + 2000),
             'body' => 'Oi, tudo bem?',
-            'created_at' => Carbon::now()->addSeconds(++$seconds),
-            'updated_at' => Carbon::now()->addSeconds($seconds),
+            'created_at' => Carbon::now()->addMinutes(++$minutes),
+            'updated_at' => Carbon::now()->addMinutes($minutes),
         ]);
 
         App\Message::create([
             'from' => 1,
             'to' => 2,
-            'seen' => Carbon::now()->addSeconds(++$seconds + 2000),
+            'seen' => Carbon::now()->addMinutes(++$minutes + 2000),
             'body' => 'Tudo jóia! Não se esqueça de alongar antes e depois dos exercícios hein!',
-            'created_at' => Carbon::now()->addSeconds(++$seconds),
-            'updated_at' => Carbon::now()->addSeconds($seconds),
+            'created_at' => Carbon::now()->addMinutes(++$minutes),
+            'updated_at' => Carbon::now()->addMinutes($minutes),
         ]);
 
         App\Message::create([
             'from' => 2,
             'to' => 1,
-            'seen' => Carbon::now()->addSeconds(++$seconds + 2000),
+            'seen' => Carbon::now()->addMinutes(++$minutes + 2000),
             'body' => 'Pode deixar!',
-            'created_at' => Carbon::now()->addSeconds(++$seconds),
-            'updated_at' => Carbon::now()->addSeconds($seconds),
+            'created_at' => Carbon::now()->addMinutes(++$minutes),
+            'updated_at' => Carbon::now()->addMinutes($minutes),
         ]);
 
         App\Message::create([
             'from' => 1,
             'to' => 2,
-            'seen' => Carbon::now()->addSeconds(++$seconds + 2000),
+            'seen' => Carbon::now()->addMinutes(++$minutes + 2000),
             'body' => 'Bom treino ;)',
-            'created_at' => Carbon::now()->addSeconds(++$seconds),
-            'updated_at' => Carbon::now()->addSeconds($seconds),
+            'created_at' => Carbon::now()->addMinutes(++$minutes),
+            'updated_at' => Carbon::now()->addMinutes($minutes),
         ]);
 
         App\Message::create([
             'from' => 2,
             'to' => 1,
             'body' => 'Obrigada!',
-            'created_at' => Carbon::now()->addSeconds(++$seconds),
-            'updated_at' => Carbon::now()->addSeconds($seconds),
+            'created_at' => Carbon::now()->addMinutes(++$minutes),
+            'updated_at' => Carbon::now()->addMinutes($minutes),
         ]);
 
         $messages = [
@@ -69,64 +69,63 @@ class MessageTableSeeder extends Seeder
 
         $users = App\User::all()->except(['id' => 2])->except(['id' => 1]);
 
-        foreach ($users as $key => $user) {
-            App\Message::create([
-                'from' => $user->id,
-                'to' => 1,
-                'seen' => Carbon::now()->addSeconds(++$seconds + 2000),
-                'body' => $messages[0],
-                'created_at' => Carbon::now()->addSeconds(++$seconds),
-                'updated_at' => Carbon::now()->addSeconds($seconds),
-            ]);
+        foreach (range(0,3) as $key => $value) {
+            foreach ($users as $key => $user) {
+                App\Message::create([
+                    'from' => $user->id,
+                    'to' => 1,
+                    'seen' => Carbon::now()->addMinutes(++$minutes + 2000),
+                    'body' => $messages[0],
+                    'created_at' => Carbon::now()->addMinutes(++$minutes),
+                    'updated_at' => Carbon::now()->addMinutes($minutes),
+                ]);
 
-            App\Message::create([
-                'from' => 1,
-                'to' => $user->id,
-                'seen' => Carbon::now()->addSeconds(++$seconds + 2000),
-                'body' => $messages[1],
-                'created_at' => Carbon::now()->addSeconds(++$seconds),
-                'updated_at' => Carbon::now()->addSeconds($seconds),
-            ]);
+                App\Message::create([
+                    'from' => 1,
+                    'to' => $user->id,
+                    'seen' => Carbon::now()->addMinutes(++$minutes + 2000),
+                    'body' => $messages[1],
+                    'created_at' => Carbon::now()->addMinutes(++$minutes),
+                    'updated_at' => Carbon::now()->addMinutes($minutes),
+                ]);
 
-            App\Message::create([
-                'from' => $user->id,
-                'to' => 1,
-                'seen' => Carbon::now()->addSeconds(++$seconds + 2000),
-                'body' => $messages[2],
-                'created_at' => Carbon::now()->addSeconds(++$seconds),
-                'updated_at' => Carbon::now()->addSeconds($seconds),
-            ]);
+                App\Message::create([
+                    'from' => $user->id,
+                    'to' => 1,
+                    'seen' => Carbon::now()->addMinutes(++$minutes + 2000),
+                    'body' => $messages[2],
+                    'created_at' => Carbon::now()->addMinutes(++$minutes),
+                    'updated_at' => Carbon::now()->addMinutes($minutes),
+                ]);
 
-            App\Message::create([
-                'from' => 1,
-                'to' => $user->id,
-                'seen' => Carbon::now()->addSeconds(++$seconds + 2000),
-                'body' => $messages[3],
-                'created_at' => Carbon::now()->addSeconds(++$seconds),
-                'updated_at' => Carbon::now()->addSeconds($seconds),
-            ]);
+                App\Message::create([
+                    'from' => 1,
+                    'to' => $user->id,
+                    'seen' => Carbon::now()->addMinutes(++$minutes + 2000),
+                    'body' => $messages[3],
+                    'created_at' => Carbon::now()->addMinutes(++$minutes),
+                    'updated_at' => Carbon::now()->addMinutes($minutes),
+                ]);
 
-            App\Message::create([
-                'from' => $user->id,
-                'to' => 1,
-                'seen' => Carbon::now()->addSeconds(++$seconds + 2000),
-                'body' => $messages[4],
-                'created_at' => Carbon::now()->addSeconds(++$seconds),
-                'updated_at' => Carbon::now()->addSeconds($seconds),
-            ]);
+                App\Message::create([
+                    'from' => $user->id,
+                    'to' => 1,
+                    'seen' => Carbon::now()->addMinutes(++$minutes + 2000),
+                    'body' => $messages[4],
+                    'created_at' => Carbon::now()->addMinutes(++$minutes),
+                    'updated_at' => Carbon::now()->addMinutes($minutes),
+                ]);
 
-            App\Message::create([
-                'from' => 1,
-                'to' => $user->id,
-                'seen' => Carbon::now()->addSeconds(++$seconds + 2000),
-                'body' => $messages[5],
-                'created_at' => Carbon::now()->addSeconds(++$seconds),
-                'updated_at' => Carbon::now()->addSeconds($seconds),
-            ]);
+                App\Message::create([
+                    'from' => 1,
+                    'to' => $user->id,
+                    'seen' => Carbon::now()->addMinutes(++$minutes + 2000),
+                    'body' => $messages[5],
+                    'created_at' => Carbon::now()->addMinutes(++$minutes),
+                    'updated_at' => Carbon::now()->addMinutes($minutes),
+                ]);
+            }
         }
-
-
-
 
     }
 }
