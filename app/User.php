@@ -32,6 +32,7 @@ class User extends Authenticatable
         'api_token',
     ];
 
+
     public function pupils()
     {
         return $this->belongsToMany(User::class, 'user_coaches', 'coach_id', 'user_id');
@@ -57,6 +58,22 @@ class User extends Authenticatable
     {
         return $this->hasMany(Token::class);
     }
+
+    // public function messages()
+    // {
+    //     return $this->belongsToMany(Message::class);
+    // }
+
+    public function sentMessage()
+    {
+        return $this->hasMany(Message::class, 'from');
+    }
+
+    public function receivedMessage()
+    {
+        return $this->hasMany(Message::class, 'to');
+    }
+
 
     public function getMostData()
     {

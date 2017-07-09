@@ -21,6 +21,7 @@ Route::group(['prefix' => 'v1'], function ()
     Route::post('login', 'UserController@login');
 
 
+
     Route::group(['prefix' => 'users', 'middleware' => 'auth:api'], function ()
     {
         Route::get('who', 'UserController@who');
@@ -34,10 +35,14 @@ Route::group(['prefix' => 'v1'], function ()
         Route::delete('{id}/unfriend', 'UserController@removeContact');
     });
 
+
+
     Route::group(['prefix' => 'coaches', 'middleware' => 'auth:api'], function ()
     {
         Route::post('users', 'UserController@addPupil');
     });
+
+
 
 
     Route::group(['prefix' => 'workouts', 'middleware' => 'auth:api'], function ()
@@ -55,6 +60,8 @@ Route::group(['prefix' => 'v1'], function ()
     });
 
 
+
+
     Route::group(['prefix' => 'exercises', 'middleware' => 'auth:api'], function ()
     {
         Route::get('', 'ExerciseController@index');
@@ -62,6 +69,19 @@ Route::group(['prefix' => 'v1'], function ()
         Route::post('', 'ExerciseController@store');
         Route::patch('{id}', 'ExerciseController@update');
         Route::delete('{id}', 'ExerciseController@delete');
+    });
+
+
+    Route::group(['prefix' => 'messages', 'middleware' => 'auth:api'], function ()
+    {
+        Route::get('', 'MessageController@all');
+        // Route::get('new', 'MessageController@allNew');
+        Route::get('between/{contactId}', 'MessageController@list');
+        Route::get('between/{contactId}/offset/{offset}', 'MessageController@list');
+        Route::get('between/{contactId}/offset/{offset}/limit/{limit}', 'MessageController@list');
+        Route::post('to/{contactId}', 'MessageController@store');
+        // Route::patch('{id}', 'MessageController@update');
+        // Route::delete('{id}', 'MessageController@delete');
     });
 
 });
