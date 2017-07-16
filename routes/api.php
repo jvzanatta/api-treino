@@ -28,9 +28,9 @@ Route::group(['prefix' => 'v1'], function ()
         Route::get('data', 'UserController@getMostData');
         Route::get('logout', 'Auth\LoginController@logout');
         // Route::get('', 'UserController@index');
-        Route::get('{id}', 'WorkoutController@show');
-        Route::post('', 'WorkoutController@store');
-        Route::patch('{id}', 'WorkoutController@update');
+        Route::get('{id}', 'UserController@show');
+        Route::post('', 'UserController@store');
+        Route::patch('{id}', 'UserController@update');
 
         Route::delete('{id}/unfriend', 'UserController@removeContact');
     });
@@ -54,7 +54,8 @@ Route::group(['prefix' => 'v1'], function ()
 
         // Route::patch('{id}/exercises', 'WorkoutController@updateExercises');
 
-        Route::patch('/users/{userId}/sync', 'WorkoutController@sync');
+        Route::patch('{workoutId}/users/sync', 'WorkoutController@syncWorkout');
+        Route::patch('/users/{userId}/sync', 'WorkoutController@syncUser');
         Route::post('{workoutId}/users/{userId}', 'WorkoutController@share');
         Route::delete('{workoutId}/users/{userId}', 'WorkoutController@unshare');
     });

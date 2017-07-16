@@ -115,9 +115,9 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        $updated = $user->update($request->all());
+        $user->update($request->all());
 
-        return response()->json(['updated' => $updated, 'user' => $user]);
+        return $this->showResponse($user);
     }
 
     public function who(Request $request)

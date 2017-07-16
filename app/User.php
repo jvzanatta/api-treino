@@ -17,14 +17,22 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
-        'password','api_token',
+        'password',
+        'api_token',
         'gender',
         'nick_name',
         'birth_date',
         'weight',
         'height',
         'facebook_id',
-        'google_id'
+        'google_id',
+        'phone',
+        'picture',
+        'fat_percent',
+        'is_coach',
+        'info',
+        'goal',
+        'limitations',
     ];
 
     protected $hidden = [

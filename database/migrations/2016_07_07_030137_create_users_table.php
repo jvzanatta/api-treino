@@ -26,9 +26,9 @@ class CreateUsersTable extends Migration
             $table->string('picture', 300)->nullable();
             $table->date('birth_date')->nullable();
             $table->string('password', 100);
-            $table->decimal('fat_percent', 6, 3)->nullable()->unsigned();
-            $table->decimal('weight', 6, 3)->nullable()->unsigned();
-            $table->decimal('height', 6, 3)->nullable()->unsigned();
+            $table->decimal('fat_percent', 3, 1)->nullable()->unsigned();
+            $table->decimal('weight', 3, 1)->nullable()->unsigned();
+            $table->decimal('height', 3, 2)->nullable()->unsigned();
             $table->smallInteger('is_coach')->default(1);
             $table->text('info')->nullable();
             $table->text('goal')->nullable();

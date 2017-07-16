@@ -79,7 +79,7 @@ class WorkoutController extends Controller
         }
     }
 
-    public function sync(Request $request, $userId)
+    public function syncUser(Request $request, $userId)
     {
         try {
             if (!($request->has('workouts') && $pupil = User::find($userId))) {
@@ -107,6 +107,36 @@ class WorkoutController extends Controller
             return $this->clientErrorResponse($data);
         }
     }
+
+
+    public function syncWorkout(Request $request, $workoutId)
+    {
+        try {
+            $user = $request->user();
+            $workout = Workout::find($workoutId);
+
+            if (!($request->has('pupils')
+                && $workout
+                && $user->owns($workout))) {
+
+                return $this->notFoundResponse();
+            }
+
+            $pupilIds = $request->input('pupils');
+
+            $workout->users()->sync($pupilIds);
+
+            $workouts = $user->givenWorkouts->merge($user->createdWorkouts);
+            $workouts->load('exercises', 'sport', 'creator', 'users');
+
+            return $this->showResponse($workouts);
+
+        } catch(\Exception $ex) {
+            $data = ['exception' => $ex->getMessage()];
+            return $this->clientErrorResponse($data);
+        }
+    }
+
 
     public function share(Request $request, $workoutId, $userId)
     {
