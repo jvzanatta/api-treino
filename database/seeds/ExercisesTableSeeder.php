@@ -326,54 +326,116 @@ class ExercisesTableSeeder extends Seeder
             ]
         ]);
 
-        $nutritionId = App\Sport::where('name', 'Nutrição')->first()->id;
 
-        $nutritionTimeArray = [
-            '07h',
-            '10h',
-            '13h',
-            '16h',
-            '19h',
-            '22h',
+
+
+
+
+
+
+        $runningId = App\Sport::where('name', 'Corrida')->first()->id;
+
+        $runningArray = [
+            '3000m',
+            '2000m',
+            '1000m',
+            '500m',
+            '300m',
         ];
 
-        $nutritionFoodArray = [
-            'Pães',
-            'Massas',
-            'Arroz',
-            'Batata',
-            'Cereais',
-            'Folhagens',
-            'Cenoura',
-            'Abóbora',
-            'Beterraba',
-            'Laranja',
-            'Limão',
-            'Acerola',
-            'Melão',
-            'Uva',
-            'Abacaxi',
-            'Manga',
-            'Kiwi',
-            'Mamão',
-            'Ovos',
-            'Feijão',
-            'Lentilha',
-            'Grão-de-bico',
-            'Nozes',
-            'Castanhas',
-            'Leite',
-            'Iogurtes',
-            'Coalhadas',
-            'Queijos',
+        $runningExercises = [
+            '1x forte',
+            '1x fraco',
+            '2x forte',
+            '2x fraco',
+            '3x forte',
+            '3x fraco',
+            '4x forte',
+            '4x fraco',
+            '5x forte',
+            '5x fraco',
         ];
 
-        foreach ($nutritionTimeArray as $groupName) {
-            $groupId = App\ExerciseGroup::where([['name', $groupName], ['sport_id', $nutritionId]])->first()->id;
-            foreach ($nutritionFoodArray as $foodName) {
-                App\Exercise::create(['name' => $foodName, 'exercise_group_id' => $groupId]);
+
+        $groupId = App\ExerciseGroup::where([['name', $runningArray[0]], ['sport_id', $runningId]])->first()->id;
+        App\Exercise::create(['name' => $runningExercises[0], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[1], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[2], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[3], 'exercise_group_id' => $groupId]);
+
+
+        $groupId = App\ExerciseGroup::where([['name', $runningArray[1]], ['sport_id', $runningId]])->first()->id;
+        App\Exercise::create(['name' => $runningExercises[0], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[1], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[2], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[3], 'exercise_group_id' => $groupId]);
+
+
+        $groupId = App\ExerciseGroup::where([['name', $runningArray[2]], ['sport_id', $runningId]])->first()->id;
+        App\Exercise::create(['name' => $runningExercises[2], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[3], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[4], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[5], 'exercise_group_id' => $groupId]);
+
+
+        $groupId = App\ExerciseGroup::where([['name', $runningArray[3]], ['sport_id', $runningId]])->first()->id;
+        App\Exercise::create(['name' => $runningExercises[6], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[7], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[8], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[9], 'exercise_group_id' => $groupId]);
+
+
+        $groupId = App\ExerciseGroup::where([['name', $runningArray[4]], ['sport_id', $runningId]])->first()->id;
+        App\Exercise::create(['name' => $runningExercises[6], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[7], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[8], 'exercise_group_id' => $groupId]);
+        App\Exercise::create(['name' => $runningExercises[9], 'exercise_group_id' => $groupId]);
+
+
+
+
+
+
+
+
+
+
+        $swimmingId = App\Sport::where('name', 'Natação')->first()->id;
+
+        $swimmingArray = [
+            'Bruços',
+            'Costas',
+            'Crawl',
+            'Mariposa',
+        ];
+
+        $swimmingExercises = [
+            '50m forte',
+            '100m forte',
+            '200m forte',
+            '500m forte',
+            '1000m forte',
+            '2000m forte',
+            '50m fraco',
+            '100m fraco',
+            '200m fraco',
+            '500m fraco',
+            '1000m fraco',
+            '2000m fraco',
+        ];
+
+        foreach ($swimmingArray as $groupName) {
+            $groupId = App\ExerciseGroup::where([['name', $groupName], ['sport_id', $swimmingId]])->first()->id;
+            foreach ($swimmingExercises as $exercise) {
+                App\Exercise::create(['name' => $exercise, 'exercise_group_id' => $groupId]);
             }
         }
+
+
+
+
+
+        $nutritionId = App\Sport::where('name', 'Nutrição')->first()->id;
 
         $nutritionTypeArray = [
             'Carboidratos' => ['Pães',
@@ -422,6 +484,10 @@ class ExercisesTableSeeder extends Seeder
                 App\Exercise::create(['name' => $foodName, 'exercise_group_id' => $groupId]);
             }
         }
+
+
+
+
 
         $fisioId = App\Sport::where('name', 'Fisioterapia')->first()->id;
 
